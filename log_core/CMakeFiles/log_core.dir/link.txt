@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared -Wl,-soname,liblog_core.so -o liblog_core.so CMakeFiles/log_core.dir/src/gallery.cpp.o CMakeFiles/log_core.dir/src/log_entry_factory.cpp.o CMakeFiles/log_core.dir/src/log_entry.cpp.o CMakeFiles/log_core.dir/src/log_file_stream.cpp.o 

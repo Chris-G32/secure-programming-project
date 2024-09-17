@@ -24,9 +24,9 @@ Same as the arguments, for simplicity of code.
 #### Whole File
 
 digestofkey
-10 EJohn A
-11 EJohn A 10
-13 GAmy A
-16 GAmy A 10
-17 EJohn L 10
-18 EJohn L
+10 E John A
+11 E John A 10
+13 G Amy A
+16 G Amy A 10
+17 E John L 10
+18 E John L
