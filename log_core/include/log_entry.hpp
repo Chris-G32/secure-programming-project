@@ -2,6 +2,7 @@
 #define LOG_ENTRY_HPP
 #include "typedefs.hpp"
 #include <string>
+#include <vector>
 class LogEntry
 {
 private:
@@ -24,7 +25,7 @@ public:
         }
         return std::make_pair(true, *_roomID);
     }
-
+    std::list<std::string> logRead(std::vector<std::string>);
     ~LogEntry() { delete _roomID; }
 };
 #endif
