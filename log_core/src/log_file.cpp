@@ -68,6 +68,16 @@ LogFile::LogFile(const std::string &fileName, const std::string &key) : _fileNam
     }
     // Then go through the data and decrypt it as we go, like in previous code
     std::vector<unsigned char> plaintext = decrypt_data(encrypted_data, nonce, (unsigned char *)key.c_str());
-    std::find_if(plaintext.begin(), plaintext.end(), [](unsigned char data)
-                 { return data == '\n'; });
+    std::vector<std::string> entryStrings(40);
+    for (auto it = plaintext.begin(); it != plaintext.end();)
+    {
+        auto newLine = std::find_if(it, plaintext.end(), [](unsigned char data)
+                                    { return data == '\n'; });
+        std::string string(it, newLine);
+        entryStrings.push_back(std::move(string));
+        it = newLine;
+    }
+
+    // Pass entry strings to a function to populate our entrues
+    //  _entries=//JACKS FUNCTION
 }
