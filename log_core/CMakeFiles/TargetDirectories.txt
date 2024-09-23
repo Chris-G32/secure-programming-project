@@ -1,6 +1,0 @@
-/home/chris/ksu-projects/secure-programming-project/log_core/CMakeFiles/log_core.dir
-/home/chris/ksu-projects/secure-programming-project/log_core/CMakeFiles/log_entry_factory_tests.dir
-/home/chris/ksu-projects/secure-programming-project/log_core/CMakeFiles/string_utils_tests.dir
-/home/chris/ksu-projects/secure-programming-project/log_core/CMakeFiles/test.dir
-/home/chris/ksu-projects/secure-programming-project/log_core/CMakeFiles/edit_cache.dir
-/home/chris/ksu-projects/secure-programming-project/log_core/CMakeFiles/rebuild_cache.dir

@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/log_entry_factory_tests.dir/tests/log_entry_factory_tests.cpp.o -o log_entry_factory_tests  -Wl,-rpath,/home/chris/ksu-projects/secure-programming-project/log_core liblog_core.so /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a 

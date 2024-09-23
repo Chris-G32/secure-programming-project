@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/string_utils_tests.dir/tests/string_utils_tests.cpp.o -o string_utils_tests  -Wl,-rpath,/home/chris/ksu-projects/secure-programming-project/log_core liblog_core.so /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a 
