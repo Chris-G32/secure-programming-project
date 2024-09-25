@@ -77,7 +77,12 @@ LogFile::LogFile(const std::string &fileName, const std::string &key) : _fileNam
         entryStrings.push_back(std::move(string));
         it = newLine;
     }
-
+    
     // Pass entry strings to a function to populate our entrues
-    //  _entries=//JACKS FUNCTION
+    //  _entries= //JACKS FUNCTION
+    for (auto &&line : entryStrings)
+    {
+        LogEntry entry; // = JACKS FUNCTION
+        
+    }
 }
