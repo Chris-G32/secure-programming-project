@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/logread.dir/logread.cpp.o -o logread  ../log_core/liblog_core.a 
