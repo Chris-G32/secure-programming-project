@@ -3,6 +3,10 @@
 #include "typedefs.hpp"
 #include <string>
 #include <vector>
+#include <set>
+#include <list>
+#include <map>
+
 class LogEntry
 {
 private:
@@ -25,7 +29,8 @@ public:
         }
         return std::make_pair(true, *_roomID);
     }
-    std::list<std::string> logRead(std::vector<std::string>);
+    std::string logRead(std::string);
     ~LogEntry() { delete _roomID; }
 };
+
 #endif
