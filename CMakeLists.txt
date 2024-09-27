@@ -31,3 +31,5 @@ add_subdirectory(logread)
 # include(GoogleTest)
 # gtest_discover_tests(log_entry_factory_tests)
 # gtest_discover_tests(string_utils_tests)
+
+# cd into build then cmake ..   -    then make - make clean - make VERBOSE=1 will so exaclty what make it doing wiht compiler
