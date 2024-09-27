@@ -23,11 +23,11 @@ add_subdirectory(log_core)
 add_subdirectory(logappend)
 add_subdirectory(logread)
 
-# We're not adding test executables here because we don't see test files in the structure provided
 # If you want to add tests later, you can uncomment these lines and adjust the paths
 # add_executable(log_entry_factory_tests path/to/log_entry_factory_tests.cpp)
 # target_link_libraries(log_entry_factory_tests gtest_main log_core)
 # add_executable(string_utils_tests path/to/string_utils_tests.cpp)
 # target_link_libraries(string_utils_tests gtest_main log_core)
+# include(GoogleTest)
 # gtest_discover_tests(log_entry_factory_tests)
 # gtest_discover_tests(string_utils_tests)
