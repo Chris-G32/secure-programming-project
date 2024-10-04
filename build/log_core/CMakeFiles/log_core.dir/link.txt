@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblog_core.a CMakeFiles/log_core.dir/src/attendee.cpp.o CMakeFiles/log_core.dir/src/gallery.cpp.o CMakeFiles/log_core.dir/src/log_file.cpp.o CMakeFiles/log_core.dir/src/main.cpp.o
-/usr/bin/ranlib liblog_core.a

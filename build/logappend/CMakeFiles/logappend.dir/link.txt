@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/logappend.dir/logappend.cpp.o -o logappend  ../log_core/liblog_core.a 

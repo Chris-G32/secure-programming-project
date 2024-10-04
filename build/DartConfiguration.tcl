@@ -4,8 +4,8 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/cohen/Desktop/secure prog/secure-programming-project
-BuildDirectory: /home/cohen/Desktop/secure prog/secure-programming-project/build
+SourceDirectory: /home/cohen/Desktop/secure-programming-project
+BuildDirectory: /home/cohen/Desktop/secure-programming-project/build
 
 # Where to place the cost data store
 CostDataFile: 
@@ -26,7 +26,7 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/home/cohen/Desktop/secure prog/secure-programming-project"
+ConfigureCommand: "/usr/bin/cmake" "/home/cohen/Desktop/secure-programming-project"
 MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 

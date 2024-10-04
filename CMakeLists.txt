@@ -18,9 +18,18 @@ FetchContent_MakeAvailable(googletest)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#Add the cmake folder to the module path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 # Find libsodium
 find_package(sodium REQUIRED) 
 # The REQUIRED flag means CMake will error out if it can't find libsodium
+
+# link libsodium
+target_link_libraries(YourExecutableName PRIVATE sodium)
+
+# Include directories for libsodium
+target_include_directories(YourExecutableName PRIVATE ${sodium_INCLUDE_DIR})
 
 # Add subdirectories
 add_subdirectory(log_core)
@@ -36,8 +45,5 @@ add_subdirectory(logread)
 # include(GoogleTest)
 # gtest_discover_tests(logappend_tests)
 # gtest_discover_tests(logread_tests)
-
-# link libsodium
-target_link_libraries(YourExecutableName PRIVATE sodium)
 
 # cd into build then cmake ..   -    then make - make clean - make VERBOSE=1 will so exaclty what make it doing wiht compiler
