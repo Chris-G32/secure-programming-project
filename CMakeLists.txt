@@ -18,18 +18,26 @@ FetchContent_MakeAvailable(googletest)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Find libsodium
+find_package(sodium REQUIRED) 
+# The REQUIRED flag means CMake will error out if it can't find libsodium
+
 # Add subdirectories
 add_subdirectory(log_core)
 add_subdirectory(logappend)
 add_subdirectory(logread)
 
 # If you want to add tests later, you can uncomment these lines and adjust the paths
-# add_executable(log_entry_factory_tests path/to/log_entry_factory_tests.cpp)
-# target_link_libraries(log_entry_factory_tests gtest_main log_core)
-# add_executable(string_utils_tests path/to/string_utils_tests.cpp)
-# target_link_libraries(string_utils_tests gtest_main log_core)
+# add_executable(logappend_tests path/to/logappend_tests.cpp)
+# target_link_libraries(logappend_tests gtest_main log_core)
+
+# add_executable(logread_tests path/to/slogread_tests.cpp)
+# target_link_libraries(logread_tests gtest_main log_core)
 # include(GoogleTest)
-# gtest_discover_tests(log_entry_factory_tests)
-# gtest_discover_tests(string_utils_tests)
+# gtest_discover_tests(logappend_tests)
+# gtest_discover_tests(logread_tests)
+
+# link libsodium
+target_link_libraries(YourExecutableName PRIVATE sodium)
 
 # cd into build then cmake ..   -    then make - make clean - make VERBOSE=1 will so exaclty what make it doing wiht compiler
