@@ -7,9 +7,9 @@ class LogEntry
 {
 private:
     Timestamp _time;
-    bool _isEmployee;
+    char _isEmployee;
     std::string _name;
-    bool _isArrival;
+    char _isArrival;
     RoomID *_roomID = nullptr;
 
 public:
@@ -25,12 +25,34 @@ public:
         }
         return std::make_pair(true, *_roomID);
     }
-    LogEntry(std::string time, std::string name, std::string isEmployee, std::string isArrival){
+    LogEntry(std::string entry){
+        std::string time = entry.substr(0, entry.find_first_of(" "));
+        entry.erase(entry.begin(), entry.find_first_of(" "));
+        std::string isEmployee = entry.substr(0, entry.find_first_of(" "));
+        entry.erase(entry.begin(), entry.find_first_of(" "));
+        std::string name = entry.substr(entry.begin(), entry.find_first_of(" "))
+        entry.erase(entry.begin(), entry.find_first_of(" "));
+        std::string isArrival = entry.substr(entry.begin(), entry.find_first_of(" "));
+        if(isArrival == "-R"){
+            entry.erase(entry.begin(), entry.find_first_of(" "));
+            std::string roomID = entry.substr(entry.begin(), entry.end()-1);
+        }
+        else{
+            //deleting since entry should be empty at this point;
+            delete entry;
+        }
+        _time = std::stoul(time); _name = name; 
         if(isEmployee == "-E") { LogEntry::isEmployee(); }
         else { LogEntry::isGuest(); }
-        if(isArrival == "-A") { LogEntry::isArrival(); _roomID =  }
-        else if (isArrival == "-R");
-        _time = std::stoul(time); _name = name; 
+        if(isArrival == "-A") { LogEntry::isArrival(); _roomID = std::atoi("1") }
+        else if (isArrival == "-R") {_roomID = std::atoi(roomID)}
+        else {
+            
+        }
+        // if(isEmployee == "E") { LogEntry::isEmployee(); }
+        // else { LogEntry::isGuest(); }
+        // if(isArrival == "A") { LogEntry::isArrival(); _roomID = std::atoi("1") }
+        // else if (isArrival == "R") {_roomID = std::atoi(roomID)}
     }
 
     ~LogEntry() { delete _roomID; }
