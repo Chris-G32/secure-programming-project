@@ -15,12 +15,13 @@ private:
     // unsigned char _key[crypto_stream_chacha20_KEYBYTES];
     std::string _fileName;
     std::string _key;
-    std::list<LogEntry> _entries;
+    std::vector<LogEntry> _entries;
     std::array<unsigned char, crypto_stream_chacha20_NONCEBYTES> readNonce();
     std::array<unsigned char, crypto_stream_chacha20_NONCEBYTES> readKeyHash();
     
 public:
     LogFile(const std::string &fileName, const std::string &key);
+    void addEntry(LogEntry newLog){ _entries.push_back(newLog);}
     bool open() noexcept {}
 };
 #endif

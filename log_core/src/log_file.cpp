@@ -82,7 +82,9 @@ LogFile::LogFile(const std::string &fileName, const std::string &key) : _fileNam
     //  _entries= //JACKS FUNCTION
     for (auto &&line : entryStrings)
     {
-        LogEntry entry; // = JACKS FUNCTION
-        
+        //needs to follow the ctor for LogEntry
+        //LogEntry(std::string time, std::string name, bool isEmployee, bool isArrival)
+        LogEntry entry(); // = JACKS FUNCTION
+        LogFile::addEntry(entry);
     }
 }
