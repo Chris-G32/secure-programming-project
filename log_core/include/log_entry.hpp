@@ -26,41 +26,24 @@ public:
         return std::make_pair(true, *_roomID);
     }
     LogEntry(std::string entry){
-        std::string time = entry.substr(entry.begin(), entry.find_first_of(" "));
-        entry.erase(entry.begin(), entry.find_first_of(" "));
-        std::string isEmployee = entry.substr(entry.begin(), entry.find_first_of(" "));
-        entry.erase(entry.begin(), entry.find_first_of(" "));
-        std::string name = entry.substr(entry.begin(), entry.find_first_of(" "))
-        entry.erase(entry.begin(), entry.find_first_of(" "));
-        std::string isArrival = entry.substr(entry.begin(), entry.find_first_of(" "));
-        if(isArrival == "-R"){
-            entry.erase(entry.begin(), entry.find_first_of(" "));
-            std::string roomID = entry.substr(entry.begin(), entry.end()-1);
-        }
-        else{
-            //deleting since entry should be empty at this point;
-            delete entry;
-        }
+        //make a func that does the following assign erase lines. 
+        std::string time = entry.substr(0, entry.find_first_of(" "));
+        entry.erase(0, entry.find_first_of(" "));
+        std::string isEmployee = entry.substr(0, entry.find_first_of(" "));
+        entry.erase(0, entry.find_first_of(" "));
+        std::string name = entry.substr(0, entry.find_first_of(" "));
+        entry.erase(0, entry.find_first_of(" "));
+        std::string isArrival = entry.substr(0, entry.find_first_of(" "));
+        // Need to check for roomID before next 2 lines. 
+        // entry.erase(0, entry.find_first_of(" "));
+        // std::string roomID = entry.substr(0, entry.end()-1);
+        
         _time = std::stoul(time); _name = name; 
-        if(isEmployee == "-E") { LogEntry::isEmployee(); }
+        if(isEmployee == "E") { LogEntry::isEmployee(); }
         else { LogEntry::isGuest(); }
-        if(isArrival == "-A") { LogEntry::isArrival(); _roomID = std::atoi("1") }
-        else if (isArrival == "-R") {_roomID = std::atoi(roomID)}
+        if(isArrival == "A") { LogEntry::isArrival(); _roomID = std::atoi("1") }
+        else if (isArrival == "R") {_roomID = std::atoi(roomID)}
         else { LogEntry::isArrival(); _roomID = std::atoi("1") }
-        // if(isArrival == "R"){
-        //     entry.erase(entry.begin(), entry.find_first_of(" "));
-        //     std::string roomID = entry.substr(entry.begin(), entry.end()-1);
-        // }
-        // else{
-        //     //deleting since entry should be empty at this point;
-        //     delete entry;
-        // }
-        // _time = std::stoul(time); _name = name; 
-        // if(isEmployee == "E") { LogEntry::isEmployee(); }
-        // else { LogEntry::isGuest(); }
-        // if(isArrival == "A") { LogEntry::isArrival(); _roomID = std::atoi("1") }
-        // else if (isArrival == "R") {_roomID = std::atoi(roomID)}
-        // else { LogEntry::isArrival(); _roomID = std::atoi("1") }
     }
 
     ~LogEntry() { delete _roomID; }
