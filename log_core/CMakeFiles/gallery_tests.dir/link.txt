@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/gallery_tests.dir/tests/gallery_tests.cpp.o -o gallery_tests  -Wl,-rpath,/home/chris/ksu-projects/secure-programming-project/log_core liblog_core.so -lSodium::sodium /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a 

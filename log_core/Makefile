@@ -65,16 +65,6 @@ CMAKE_BINARY_DIR = /home/chris/ksu-projects/secure-programming-project/log_core
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -140,30 +130,41 @@ log_core/fast:
 .PHONY : log_core/fast
 
 #=============================================================================
-# Target rules for targets named log_entry_factory_tests
+# Target rules for targets named gallery_tests
 
 # Build rule for target.
-log_entry_factory_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 log_entry_factory_tests
-.PHONY : log_entry_factory_tests
+gallery_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gallery_tests
+.PHONY : gallery_tests
 
 # fast build rule for target.
-log_entry_factory_tests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_entry_factory_tests.dir/build.make CMakeFiles/log_entry_factory_tests.dir/build
-.PHONY : log_entry_factory_tests/fast
+gallery_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gallery_tests.dir/build.make CMakeFiles/gallery_tests.dir/build
+.PHONY : gallery_tests/fast
 
-#=============================================================================
-# Target rules for targets named string_utils_tests
+src/attendee.o: src/attendee.cpp.o
+.PHONY : src/attendee.o
 
-# Build rule for target.
-string_utils_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 string_utils_tests
-.PHONY : string_utils_tests
+# target to build an object file
+src/attendee.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/attendee.cpp.o
+.PHONY : src/attendee.cpp.o
 
-# fast build rule for target.
-string_utils_tests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_utils_tests.dir/build.make CMakeFiles/string_utils_tests.dir/build
-.PHONY : string_utils_tests/fast
+src/attendee.i: src/attendee.cpp.i
+.PHONY : src/attendee.i
+
+# target to preprocess a source file
+src/attendee.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/attendee.cpp.i
+.PHONY : src/attendee.cpp.i
+
+src/attendee.s: src/attendee.cpp.s
+.PHONY : src/attendee.s
+
+# target to generate assembly for a file
+src/attendee.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/attendee.cpp.s
+.PHONY : src/attendee.cpp.s
 
 src/gallery.o: src/gallery.cpp.o
 .PHONY : src/gallery.o
@@ -189,125 +190,53 @@ src/gallery.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/gallery.cpp.s
 .PHONY : src/gallery.cpp.s
 
-src/log_entry.o: src/log_entry.cpp.o
-.PHONY : src/log_entry.o
+src/log_file.o: src/log_file.cpp.o
+.PHONY : src/log_file.o
 
 # target to build an object file
-src/log_entry.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_entry.cpp.o
-.PHONY : src/log_entry.cpp.o
+src/log_file.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_file.cpp.o
+.PHONY : src/log_file.cpp.o
 
-src/log_entry.i: src/log_entry.cpp.i
-.PHONY : src/log_entry.i
+src/log_file.i: src/log_file.cpp.i
+.PHONY : src/log_file.i
 
 # target to preprocess a source file
-src/log_entry.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_entry.cpp.i
-.PHONY : src/log_entry.cpp.i
+src/log_file.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_file.cpp.i
+.PHONY : src/log_file.cpp.i
 
-src/log_entry.s: src/log_entry.cpp.s
-.PHONY : src/log_entry.s
+src/log_file.s: src/log_file.cpp.s
+.PHONY : src/log_file.s
 
 # target to generate assembly for a file
-src/log_entry.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_entry.cpp.s
-.PHONY : src/log_entry.cpp.s
+src/log_file.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_file.cpp.s
+.PHONY : src/log_file.cpp.s
 
-src/log_entry_factory.o: src/log_entry_factory.cpp.o
-.PHONY : src/log_entry_factory.o
+tests/gallery_tests.o: tests/gallery_tests.cpp.o
+.PHONY : tests/gallery_tests.o
 
 # target to build an object file
-src/log_entry_factory.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_entry_factory.cpp.o
-.PHONY : src/log_entry_factory.cpp.o
+tests/gallery_tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gallery_tests.dir/build.make CMakeFiles/gallery_tests.dir/tests/gallery_tests.cpp.o
+.PHONY : tests/gallery_tests.cpp.o
 
-src/log_entry_factory.i: src/log_entry_factory.cpp.i
-.PHONY : src/log_entry_factory.i
-
-# target to preprocess a source file
-src/log_entry_factory.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_entry_factory.cpp.i
-.PHONY : src/log_entry_factory.cpp.i
-
-src/log_entry_factory.s: src/log_entry_factory.cpp.s
-.PHONY : src/log_entry_factory.s
-
-# target to generate assembly for a file
-src/log_entry_factory.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_entry_factory.cpp.s
-.PHONY : src/log_entry_factory.cpp.s
-
-src/log_file_stream.o: src/log_file_stream.cpp.o
-.PHONY : src/log_file_stream.o
-
-# target to build an object file
-src/log_file_stream.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_file_stream.cpp.o
-.PHONY : src/log_file_stream.cpp.o
-
-src/log_file_stream.i: src/log_file_stream.cpp.i
-.PHONY : src/log_file_stream.i
+tests/gallery_tests.i: tests/gallery_tests.cpp.i
+.PHONY : tests/gallery_tests.i
 
 # target to preprocess a source file
-src/log_file_stream.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_file_stream.cpp.i
-.PHONY : src/log_file_stream.cpp.i
+tests/gallery_tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gallery_tests.dir/build.make CMakeFiles/gallery_tests.dir/tests/gallery_tests.cpp.i
+.PHONY : tests/gallery_tests.cpp.i
 
-src/log_file_stream.s: src/log_file_stream.cpp.s
-.PHONY : src/log_file_stream.s
-
-# target to generate assembly for a file
-src/log_file_stream.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_core.dir/build.make CMakeFiles/log_core.dir/src/log_file_stream.cpp.s
-.PHONY : src/log_file_stream.cpp.s
-
-tests/log_entry_factory_tests.o: tests/log_entry_factory_tests.cpp.o
-.PHONY : tests/log_entry_factory_tests.o
-
-# target to build an object file
-tests/log_entry_factory_tests.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_entry_factory_tests.dir/build.make CMakeFiles/log_entry_factory_tests.dir/tests/log_entry_factory_tests.cpp.o
-.PHONY : tests/log_entry_factory_tests.cpp.o
-
-tests/log_entry_factory_tests.i: tests/log_entry_factory_tests.cpp.i
-.PHONY : tests/log_entry_factory_tests.i
-
-# target to preprocess a source file
-tests/log_entry_factory_tests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_entry_factory_tests.dir/build.make CMakeFiles/log_entry_factory_tests.dir/tests/log_entry_factory_tests.cpp.i
-.PHONY : tests/log_entry_factory_tests.cpp.i
-
-tests/log_entry_factory_tests.s: tests/log_entry_factory_tests.cpp.s
-.PHONY : tests/log_entry_factory_tests.s
+tests/gallery_tests.s: tests/gallery_tests.cpp.s
+.PHONY : tests/gallery_tests.s
 
 # target to generate assembly for a file
-tests/log_entry_factory_tests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/log_entry_factory_tests.dir/build.make CMakeFiles/log_entry_factory_tests.dir/tests/log_entry_factory_tests.cpp.s
-.PHONY : tests/log_entry_factory_tests.cpp.s
-
-tests/string_utils_tests.o: tests/string_utils_tests.cpp.o
-.PHONY : tests/string_utils_tests.o
-
-# target to build an object file
-tests/string_utils_tests.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_utils_tests.dir/build.make CMakeFiles/string_utils_tests.dir/tests/string_utils_tests.cpp.o
-.PHONY : tests/string_utils_tests.cpp.o
-
-tests/string_utils_tests.i: tests/string_utils_tests.cpp.i
-.PHONY : tests/string_utils_tests.i
-
-# target to preprocess a source file
-tests/string_utils_tests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_utils_tests.dir/build.make CMakeFiles/string_utils_tests.dir/tests/string_utils_tests.cpp.i
-.PHONY : tests/string_utils_tests.cpp.i
-
-tests/string_utils_tests.s: tests/string_utils_tests.cpp.s
-.PHONY : tests/string_utils_tests.s
-
-# target to generate assembly for a file
-tests/string_utils_tests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/string_utils_tests.dir/build.make CMakeFiles/string_utils_tests.dir/tests/string_utils_tests.cpp.s
-.PHONY : tests/string_utils_tests.cpp.s
+tests/gallery_tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gallery_tests.dir/build.make CMakeFiles/gallery_tests.dir/tests/gallery_tests.cpp.s
+.PHONY : tests/gallery_tests.cpp.s
 
 # Help Target
 help:
@@ -317,28 +246,20 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... test"
+	@echo "... gallery_tests"
 	@echo "... log_core"
-	@echo "... log_entry_factory_tests"
-	@echo "... string_utils_tests"
+	@echo "... src/attendee.o"
+	@echo "... src/attendee.i"
+	@echo "... src/attendee.s"
 	@echo "... src/gallery.o"
 	@echo "... src/gallery.i"
 	@echo "... src/gallery.s"
-	@echo "... src/log_entry.o"
-	@echo "... src/log_entry.i"
-	@echo "... src/log_entry.s"
-	@echo "... src/log_entry_factory.o"
-	@echo "... src/log_entry_factory.i"
-	@echo "... src/log_entry_factory.s"
-	@echo "... src/log_file_stream.o"
-	@echo "... src/log_file_stream.i"
-	@echo "... src/log_file_stream.s"
-	@echo "... tests/log_entry_factory_tests.o"
-	@echo "... tests/log_entry_factory_tests.i"
-	@echo "... tests/log_entry_factory_tests.s"
-	@echo "... tests/string_utils_tests.o"
-	@echo "... tests/string_utils_tests.i"
-	@echo "... tests/string_utils_tests.s"
+	@echo "... src/log_file.o"
+	@echo "... src/log_file.i"
+	@echo "... src/log_file.s"
+	@echo "... tests/gallery_tests.o"
+	@echo "... tests/gallery_tests.i"
+	@echo "... tests/gallery_tests.s"
 .PHONY : help
 
 

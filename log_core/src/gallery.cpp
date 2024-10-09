@@ -69,3 +69,5 @@ void Gallery::updateState(const Attendee &attendee, const GalleryEvent &event)
     entry->second.second = getNewState(event);
     _lastUpdateTime = event._time;
 }
+
+void Gallery::printState() {}
