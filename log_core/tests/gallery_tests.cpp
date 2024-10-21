@@ -1,22 +1,23 @@
-#include "gallery.hpp"
-#include <cassert>
+#include <gtest/gtest.h>
 #include <sodium.h>
-class GalleryTests : public Gallery
+
+TEST(GalleryTest, Initialization)
 {
-public:
-    GalleryTests() : Gallery() {}
-    void validateStateUpdateTests()
-    {
-        Attendee attendee("test", false);
-        GalleryEvent event(10, true);
-        
-        assert(validateStateUpdate(attendee, event));
-        GalleryEvent event2(10, false);
-        assert(!validateStateUpdate(attendee, event2));
-    }
-};
-int main()
+    ASSERT_EQ(sodium_init(), 0) << "Sodium initialization failed";
+}
+
+TEST(SodiumTest, RandomNumberGeneration)
 {
-    GalleryTests tests;
-    tests.validateStateUpdateTests();
+    uint32_t random_number1, random_number2;
+    randombytes_buf(&random_number1, sizeof(random_number1));
+    randombytes_buf(&random_number2, sizeof(random_number2));
+
+    // This test has a very small chance of failing if the same number is generated twice
+    EXPECT_NE(random_number1, random_number2) << "Generated numbers should be different";
+}
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

@@ -14,6 +14,15 @@ public:
     bool isGalleryExit() const { return !_isArrival && _roomID == nullptr; }
     bool isRoomEntry() const { return _isArrival && _roomID != nullptr; }
     bool isRoomExit() const { return !_isArrival && _roomID != nullptr; }
+    std::pair<bool, RoomID> getRoomId()
+    {
+        if (_roomID == nullptr)
+        {
+            return std::make_pair(false, 0);
+        }
+        return std::make_pair(true, *_roomID);
+    }
+    // No assumptions can be made other than roomid is null
     GalleryEvent() {}
     GalleryEvent(Timestamp time, bool arrival)
     {
