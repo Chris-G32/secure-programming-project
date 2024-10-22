@@ -317,6 +317,9 @@ FETCHCONTENT_UPDATES_DISCONNECTED_GOOGLETEST:BOOL=OFF
 //Path to a program.
 GITCOMMAND:FILEPATH=/usr/bin/git
 
+//The directory containing a CMake configuration file for GTest.
+GTest_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/GTest
+
 //Enable installation of googletest. (Projects embedding googletest
 // may want to turn this OFF.)
 INSTALL_GTEST:BOOL=ON
@@ -406,8 +409,11 @@ secure-programming-project_IS_TOP_LEVEL:STATIC=OFF
 //Value Computed by CMake
 secure-programming-project_SOURCE_DIR:STATIC=/home/cohen/Desktop/secure-programming-project/log_core
 
-//The directory containing a CMake configuration file for sodium.
-sodium_DIR:PATH=sodium_DIR-NOTFOUND
+//Path to a file.
+sodium_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+sodium_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libsodium.so
 
 
 ########################
@@ -605,10 +611,14 @@ CTEST_SUBMIT_RETRY_COUNT-ADVANCED:INTERNAL=1
 CTEST_SUBMIT_RETRY_DELAY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DART_TESTING_TIMEOUT
 DART_TESTING_TIMEOUT-ADVANCED:INTERNAL=1
+//Details about finding GTest
+FIND_PACKAGE_MESSAGE_DETAILS_GTest:INTERNAL=[/usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake][c ][v1.11.0()]
 //Details about finding Python
 FIND_PACKAGE_MESSAGE_DETAILS_Python:INTERNAL=[/usr/bin/python3.10][cfound components: Interpreter ][v3.10.12()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//Details about finding sodium
+FIND_PACKAGE_MESSAGE_DETAILS_sodium:INTERNAL=[/usr/lib/x86_64-linux-gnu/libsodium.so][/usr/include][v()]
 //ADVANCED property for variable: GITCOMMAND
 GITCOMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: MAKECOMMAND
@@ -639,5 +649,9 @@ gtest_disable_pthreads-ADVANCED:INTERNAL=1
 gtest_force_shared_crt-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: gtest_hide_internal_symbols
 gtest_hide_internal_symbols-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: sodium_INCLUDE_DIR
+sodium_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: sodium_LIBRARY
+sodium_LIBRARY-ADVANCED:INTERNAL=1
 targets_export_name:INTERNAL=GTestTargets
 
