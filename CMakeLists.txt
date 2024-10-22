@@ -5,6 +5,7 @@ project(ParentProject)
 include(CTest)
 
 # Add subdirectories for each project
-add_subdirectory(logappend)
-add_subdirectory(logread)
-add_subdirectory(Project3)
+add_subdirectory(log_core)
+# add_subdirectory(logappend)
+# add_subdirectory(logread)
+# add_subdirectory(Project3)
