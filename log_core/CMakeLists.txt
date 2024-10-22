@@ -30,10 +30,10 @@ find_package(sodium REQUIRED)
 find_package(GTest REQUIRED)
 
 # Add the executable
-add_executable(test_sodium test_sodium.cpp)
+add_executable(gallery_event_tests /tests/gallery_event_tests.cpp)
 
 # Link the sodium library and Google Test to the executable
-target_link_libraries(test_sodium 
+target_link_libraries(gallery_event_tests
     PRIVATE 
     sodium 
     ${GTEST_BOTH_LIBRARIES}
@@ -55,15 +55,15 @@ target_link_libraries(test_sodium
 
 # Add pthread link for Google Test
 if(UNIX AND NOT APPLE)
-    target_link_libraries(test_sodium PRIVATE pthread)
+    target_link_libraries(gallery_event_tests PRIVATE pthread)
 endif()
 
 # Add the test
-add_test(NAME SodiumTest COMMAND test_sodium)
+add_test(NAME SodiumTest COMMAND gallery_event_tests)
 
 include(GoogleTest)
-gtest_discover_tests(test_sodium)
-# gtest_discover_tests(logread_tests)
+gtest_discover_tests(gallery_event_tests)
+
 
 # Print some debug information
 message(STATUS "sodium_INCLUDE_DIR: ${sodium_INCLUDE_DIR}")

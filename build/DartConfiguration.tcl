@@ -4,17 +4,17 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/chris/ksu-projects/secure-programming-project
-BuildDirectory: /home/chris/ksu-projects/secure-programming-project/build
+SourceDirectory: /home/cohen/Desktop/secure-programming-project
+BuildDirectory: /home/cohen/Desktop/secure-programming-project/build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: chris-Inspiron-7306-2n1
+Site: cohen-VirtualBox
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Linux-g++
+BuildName: Linux-c++
 
 # Subprojects
 LabelsForSubprojects: 
@@ -26,7 +26,7 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/home/chris/ksu-projects/secure-programming-project"
+ConfigureCommand: "/usr/bin/cmake" "/home/cohen/Desktop/secure-programming-project"
 MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
@@ -62,7 +62,7 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: /usr/bin/g++
+Compiler: /usr/bin/c++
 CompilerVersion: 11.4.0
 
 # Dynamic analysis (MemCheck)
@@ -75,7 +75,7 @@ CudaSanitizerCommand:
 CudaSanitizerCommandOptions: 
 MemoryCheckType: 
 MemoryCheckSanitizerOptions: 
-MemoryCheckCommand: /usr/bin/valgrind
+MemoryCheckCommand: MEMORYCHECK_COMMAND-NOTFOUND
 MemoryCheckCommandOptions: 
 MemoryCheckSuppressionFile: 
 

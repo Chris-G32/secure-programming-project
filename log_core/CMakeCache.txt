@@ -222,13 +222,13 @@ PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 Sodium_DIR:PATH=Sodium_DIR-NOTFOUND
 
 //Value Computed by CMake
-log_core_BINARY_DIR:STATIC=/home/chris/ksu-projects/secure-programming-project/log_core
+log_core_BINARY_DIR:STATIC=/home/cohen/Desktop/secure-programming-project/log_core
 
 //Value Computed by CMake
 log_core_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-log_core_SOURCE_DIR:STATIC=/home/chris/ksu-projects/secure-programming-project/log_core
+log_core_SOURCE_DIR:STATIC=/home/cohen/Desktop/secure-programming-project/log_core
 
 //Path to a library.
 pkgcfg_lib_sodium_PKG_sodium:FILEPATH=/usr/lib/x86_64-linux-gnu/libsodium.so
@@ -246,7 +246,7 @@ CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
-CMAKE_CACHEFILE_DIR:INTERNAL=/home/chris/ksu-projects/secure-programming-project/log_core
+CMAKE_CACHEFILE_DIR:INTERNAL=/home/cohen/Desktop/secure-programming-project/log_core
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
@@ -325,7 +325,7 @@ CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=/home/chris/ksu-projects/secure-programming-project/log_core
+CMAKE_HOME_DIRECTORY:INTERNAL=/home/cohen/Desktop/secure-programming-project/log_core
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER
