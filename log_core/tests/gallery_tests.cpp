@@ -1,21 +1,31 @@
 #include <gtest/gtest.h>
-#include <sodium.h>
+#include "log_entry_factory.hpp"
+#include "gallery.hpp"
 
-TEST(GalleryTest, Initialization)
+class GalleryTest : public ::testing::Test, protected LogEntry
 {
-    ASSERT_EQ(sodium_init(), 0) << "Sodium initialization failed";
-}
+protected:
+    LogEntryFactory entryFactory;
+    // Setup any common variables or objects here if needed
+};
 
-TEST(SodiumTest, RandomNumberGeneration)
+TEST_F(GalleryTest, DefaultConstructor)
 {
-    uint32_t random_number1, random_number2;
-    randombytes_buf(&random_number1, sizeof(random_number1));
-    randombytes_buf(&random_number2, sizeof(random_number2));
-
-    // This test has a very small chance of failing if the same number is generated twice
-    EXPECT_NE(random_number1, random_number2) << "Generated numbers should be different";
+    Gallery gallery;
+    EXPECT_TRUE(gallery.getLastUpdate() == 0);
+    EXPECT_TRUE(gallery.getGalleryState().size() == 0);
 }
-
+TEST_F(GalleryTest, LogEntryListConstructor)
+{
+    std::list<LogEntry> entries1;
+    Gallery emptyGallery(entries1);
+    EXPECT_TRUE(emptyGallery.getLastUpdate() == 0);
+    EXPECT_TRUE(emptyGallery.getGalleryState().size() == 0);
+    std::list<LogEntry> entries2 = {};
+    Gallery gallery(entries2);
+    EXPECT_TRUE(emptyGallery.getLastUpdate() == 0);
+    EXPECT_TRUE(emptyGallery.getGalleryState().size() == 0);
+}
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);

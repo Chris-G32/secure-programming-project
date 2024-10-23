@@ -16,6 +16,7 @@ public:
     bool isGuest() { return !_isEmployee; }
     bool isArrival() { return _isArrival; }
     bool isLeave() { return !_isArrival; }
+    friend class LogEntryFactory;
     std::pair<bool, RoomID> getRoomID()
     {
         if (_roomID == nullptr)
@@ -24,7 +25,6 @@ public:
         }
         return std::make_pair(true, *_roomID);
     }
-
     ~LogEntry() { delete _roomID; }
 };
 #endif

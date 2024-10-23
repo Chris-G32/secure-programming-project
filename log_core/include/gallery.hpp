@@ -14,12 +14,11 @@ private:
     std::map<Attendee, EventListStatePair> _galleryState;
 
 protected:
+    AttendeeState getNewState(const GalleryEvent &);
+    bool validateStateUpdate(const Attendee &, const GalleryEvent &);
+public:
     Timestamp getLastUpdate() { return _lastUpdateTime; }
     const std::map<Attendee, EventListStatePair> &getGalleryState() { return _galleryState; }
-    bool validateStateUpdate(const Attendee &, const GalleryEvent &);
-    AttendeeState getNewState(const GalleryEvent &);
-
-public:
     Gallery(const std::list<LogEntry> &entries);
     Gallery() {}
     ~Gallery() {}
