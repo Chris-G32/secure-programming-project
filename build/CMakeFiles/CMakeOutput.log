@@ -447,3 +447,55 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_3bf5c/fast && gmake[1]: Entering directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_3bf5c.dir/build.make CMakeFiles/cmTC_3bf5c.dir/build
+gmake[2]: Entering directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_3bf5c.dir/CheckIncludeFile.c.o
+/usr/bin/gcc    -o CMakeFiles/cmTC_3bf5c.dir/CheckIncludeFile.c.o -c /home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_3bf5c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3bf5c.dir/link.txt --verbose=1
+/usr/bin/gcc -rdynamic CMakeFiles/cmTC_3bf5c.dir/CheckIncludeFile.c.o -o cmTC_3bf5c 
+gmake[2]: Leaving directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_97298/fast && gmake[1]: Entering directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_97298.dir/build.make CMakeFiles/cmTC_97298.dir/build
+gmake[2]: Entering directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_97298.dir/src.c.o
+/usr/bin/gcc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_97298.dir/src.c.o -c /home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_97298
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97298.dir/link.txt --verbose=1
+/usr/bin/gcc -rdynamic CMakeFiles/cmTC_97298.dir/src.c.o -o cmTC_97298 
+gmake[2]: Leaving directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/chris/ksu-projects/secure-programming-project/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
