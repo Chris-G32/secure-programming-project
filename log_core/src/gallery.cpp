@@ -1,6 +1,7 @@
 #include "gallery.hpp"
 #include <stdexcept>
-Gallery::Gallery(const std::list<LogEntry> &entries) {}
+#include <algorithm>
+#include <list>
 bool Gallery::validateStateUpdate(const Attendee &attendee, const GalleryEvent &event)
 {
     if (event._time <= _lastUpdateTime)
@@ -63,11 +64,35 @@ void Gallery::updateState(const Attendee &attendee, const GalleryEvent &event)
         throw std::runtime_error("Log is in invalid state");
     }
     auto entry = _galleryState.find(attendee);
-    // Update log of events
-    entry->second.first.push_back(event);
-    // Update stored state
-    entry->second.second = getNewState(event);
+    if (entry == _galleryState.end())
+    {
+        EventListStatePair stateInfo;
+        stateInfo.first.push_back(event);
+        stateInfo.second = getNewState(event);
+        _galleryState.insert(std::make_pair(attendee, stateInfo));
+        // PICKUP HERE
+    }
+    else
+    {
+        // Update log of events
+        entry->second.first.push_back(event);
+        // Update stored state
+        entry->second.second = getNewState(event);
+    }
+
     _lastUpdateTime = event._time;
 }
-
+void Gallery::updateState(const LogEntry &entry)
+{
+    updateState(attendeeFromEntry(entry), galleryEventFromEntry(entry));
+}
 void Gallery::printState() {}
+
+Gallery::Gallery(const std::list<LogEntry> &entries)
+{
+    _lastUpdateTime = 0;
+    for (const auto &entry : entries)
+    {
+        updateState(entry);
+    }
+}

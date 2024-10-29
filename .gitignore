@@ -34,7 +34,7 @@
 build
 CMakeLists.txt.user
 CMakeCache.txt
-CMakeFiles
+CMakeFiles/*
 CMakeScripts
 Testing
 Makefile
@@ -46,3 +46,5 @@ _deps
 CMakeUserPresets.json
 *_include.cmake
 DartConfiguration.tcl
+Makefile
+*CTest*

@@ -13,6 +13,7 @@ private:
 public:
     LogEntry create(bool isArrival, bool isEmployee, std::string name, Timestamp time);
     LogEntry create(bool isArrival, bool isEmployee, std::string name, Timestamp time, RoomID roomID);
+    LogEntry createGalleryEntry(bool isEmployee, std::string name, Timestamp time);
     LogEntryFactory(/* args */);
     ~LogEntryFactory();
 };
@@ -36,5 +37,9 @@ LogEntry LogEntryFactory::create(bool isArrival, bool isEmployee, std::string na
 {
     LogEntry entry = create(isArrival, isEmployee, name, time);
     entry._roomID = new RoomID(roomID);
+}
+LogEntry LogEntryFactory::createGalleryEntry(bool isEmployee, std::string name, Timestamp time)
+{
+    return create(true, isEmployee, name, time);
 }
 #endif
