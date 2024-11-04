@@ -19,8 +19,10 @@ private:
     std::list<LogEntry> _entries;
     std::array<unsigned char, crypto_stream_chacha20_NONCEBYTES> readNonce();
     std::array<unsigned char, crypto_stream_chacha20_NONCEBYTES> readKeyHash();
-
+    std::list<LogEntry> load(const std::vector<unsigned char> &decryptedData);
 public:
+    // Exists for testing purposes
+    LogFile(const std::string& decryptedData);
     Gallery getGallery() { return Gallery(_entries); }
     LogFile(const std::string &fileName, const std::string &key);
     bool open() noexcept {}

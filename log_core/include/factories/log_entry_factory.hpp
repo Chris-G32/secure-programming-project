@@ -14,6 +14,8 @@ public:
     LogEntry create(bool isArrival, bool isEmployee, std::string name, Timestamp time);
     LogEntry create(bool isArrival, bool isEmployee, std::string name, Timestamp time, RoomID roomID);
     LogEntry createGalleryEntry(bool isEmployee, std::string name, Timestamp time);
+    LogEntry parseFromFileFormat(const std::string &line);
+
     LogEntryFactory(/* args */);
     ~LogEntryFactory();
 };
@@ -41,5 +43,8 @@ LogEntry LogEntryFactory::create(bool isArrival, bool isEmployee, std::string na
 LogEntry LogEntryFactory::createGalleryEntry(bool isEmployee, std::string name, Timestamp time)
 {
     return create(true, isEmployee, name, time);
+}
+LogEntry LogEntryFactory::parseFromFileFormat(const std::string &line){
+    
 }
 #endif

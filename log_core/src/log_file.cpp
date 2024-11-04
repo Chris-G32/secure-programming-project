@@ -19,6 +19,9 @@ std::vector<unsigned char> decrypt_data(const std::vector<unsigned char> &cipher
     crypto_stream_chacha20_xor(decrypted_data.data(), ciphertext.data(), ciphertext.size(), nonce, key);
     return decrypted_data;
 }
+LogFile::LogFile(const std::string& decryptedData){
+
+}
 LogFile::LogFile(const std::string &fileName, const std::string &key) : _fileName(fileName), _key(key)
 {
     using std::ifstream;
@@ -84,4 +87,16 @@ LogFile::LogFile(const std::string &fileName, const std::string &key) : _fileNam
     {
         LogEntry entry; // = JACKS FUNCTION
     }
+}
+std::list<LogEntry> LogFile::load(const std::vector<unsigned char> &plaintext){
+    std::list<LogEntry> entries;
+    for (auto it = plaintext.begin(); it != plaintext.end();)
+    {
+        auto newLine = std::find_if(it, plaintext.end(), [](unsigned char data)
+                                    { return data == '\n'; });
+        std::string string(it, newLine);
+        entries.push_back(LogEntry(string));
+        it = newLine;
+    }
+
 }

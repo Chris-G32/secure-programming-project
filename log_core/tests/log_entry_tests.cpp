@@ -10,7 +10,7 @@ struct ExpectedEntryValues
     Timestamp time;
 };
 
-class LogEntryTests : public testing::Test
+class LogFileTests : public testing::Test
 {
 protected:
     std::string gen_random_str(const int len)
@@ -40,7 +40,7 @@ protected:
     }
 };
 
-TEST_F(LogEntryTests, DefaultConstructor)
+TEST_F(LogFileTests, DefaultConstructor)
 {
     std::cout << "Verifying roomID is null in default constructor";
     LogEntry entry;
@@ -48,7 +48,7 @@ TEST_F(LogEntryTests, DefaultConstructor)
     EXPECT_FALSE(roomIDPair.first);
     EXPECT_EQ(roomIDPair.second, 0);
 }
-TEST_F(LogEntryTests, NoRoomIdConstructor)
+TEST_F(LogFileTests, NoRoomIdConstructor)
 {
     auto expectedData = createRandom();
     std::cout << "Testing constructor with no roomID\n";
@@ -60,7 +60,7 @@ TEST_F(LogEntryTests, NoRoomIdConstructor)
     EXPECT_EQ(entry.getTime(), expectedData.time);
     EXPECT_EQ(entry.getRoomID().first, false);
 }
-TEST_F(LogEntryTests, WithRoomIdConstructor)
+TEST_F(LogFileTests, WithRoomIdConstructor)
 {
     auto expectedData = createRandom();
     std::cout << "Testing constructor with roomID\n";

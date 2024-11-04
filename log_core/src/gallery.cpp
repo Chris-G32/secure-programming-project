@@ -70,7 +70,6 @@ void Gallery::updateState(const Attendee &attendee, const GalleryEvent &event)
         stateInfo.first.push_back(event);
         stateInfo.second = getNewState(event);
         _galleryState.insert(std::make_pair(attendee, stateInfo));
-        // PICKUP HERE
     }
     else
     {
