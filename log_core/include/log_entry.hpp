@@ -84,6 +84,7 @@ public:
     Timestamp getTime() const { return _time; }
     const std::string &getName() const { return _name; }
     friend class LogEntryFactory;
+    friend class LogEntryParser;
     std::pair<bool, RoomID> getRoomID() const
     {
         if (_roomID == nullptr)
