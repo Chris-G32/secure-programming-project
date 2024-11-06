@@ -33,6 +33,7 @@ public:
     void printState();
     void updateState(const LogEntry &);
     void updateState(const Attendee &, const GalleryEvent &);
+    void saveToFile(const std::string &filePath);
 };
 
 #endif

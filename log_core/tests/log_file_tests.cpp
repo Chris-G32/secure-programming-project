@@ -11,6 +11,7 @@ protected:
 TEST_F(LogFileTests, DefaultConstructor)
 {
     LogFile logFile(LogFileEntryParser::instance());
+    logFile.loadRaw(std::vector<unsigned char>(), "key");
 }
 
 int main(int argc, char **argv)

@@ -15,7 +15,6 @@
 class LogFile
 {
 private:
-    std::ios* _stream;
     std::string _key;
     unsigned char nonce[crypto_stream_chacha20_NONCEBYTES];
     // The raw file contents, without cryptographic related data
@@ -27,6 +26,10 @@ private:
     const LogEntryParser& _entryParser;
 public:
     LogFile(const LogEntryParser& parser):_entryParser(parser){}
+    /// @brief Loads a log file from its containing data
+    /// @param rawFileData 
+    /// @param key 
     void loadRaw(const std::vector<unsigned char>& rawFileData, const std::string &key);
+    void save(const std::string& filePath){_gallery.saveToFile(filePath);}
 };
 #endif
