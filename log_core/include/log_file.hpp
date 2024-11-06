@@ -1,7 +1,7 @@
 #ifndef LOG_FILE_HPP
 #define LOG_FILE_HPP
+#include <ios>
 #include <sodium.h>
-#include "log_entry.hpp"
 #include <list>
 #include <array>
 #include <stdexcept>
@@ -9,22 +9,24 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include "log_entry.hpp"
+#include "log_entry_parser.hpp"
 #include "gallery.hpp"
 class LogFile
 {
 private:
-    // unsigned char _key[crypto_stream_chacha20_KEYBYTES];
-    std::string _fileName;
+    std::ios* _stream;
     std::string _key;
-    std::list<LogEntry> _entries;
+    unsigned char nonce[crypto_stream_chacha20_NONCEBYTES];
+    // The raw file contents, without cryptographic related data
+    std::vector<unsigned char> _rawFileContents;
     std::array<unsigned char, crypto_stream_chacha20_NONCEBYTES> readNonce();
     std::array<unsigned char, crypto_stream_chacha20_NONCEBYTES> readKeyHash();
-    std::list<LogEntry> load(const std::vector<unsigned char> &decryptedData);
+    Gallery _gallery;
+    // Provides us with the ability to parse the log entries from lines
+    const LogEntryParser& _entryParser;
 public:
-    // Exists for testing purposes
-    LogFile(const std::string& decryptedData);
-    Gallery getGallery() { return Gallery(_entries); }
-    LogFile(const std::string &fileName, const std::string &key);
-    bool open() noexcept {}
+    LogFile(const LogEntryParser& parser):_entryParser(parser){}
+    void loadRaw(const std::vector<unsigned char>& rawFileData, const std::string &key);
 };
 #endif

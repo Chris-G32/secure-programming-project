@@ -1,95 +1,94 @@
 #ifndef LOG_ENTRY_PARSER_HPP
 #define LOG_ENTRY_PARSER_HPP
 #include "log_entry.hpp"
+#include "log_entry_string_converter.hpp"
+#include "utils/string_utils.hpp"
+#include <list>
 class LogEntryParser
 {
 protected:
-    Timestamp getTimeFromString(const std::string &timeStr){
-        const Timestamp MAX_TIMESTAMP = 1073741823U;
-        if (!isNumeric(timeStr) || timeStr.length() > 10)
-        {
-            throw std::runtime_error("Invalid Timestamp String");
-        }
-        auto timestamp= std::strtoul(timeStr.c_str(), nullptr, 10);
-        if (timestamp > MAX_TIMESTAMP || timestamp < 1)
-        {
-            throw std::overflow_error("Timestamp is outside of acceptable range.");
-        }
-        return timestamp;
-    }
-    bool getIsEmployeeFromString(const std::string &isEmployeeStr){
-        if (isEmployeeStr == "E")
-        {
-            return true;
-        }
-        else if (isEmployeeStr == "G")
-        {
-            return false;
-        }
-        else
-        {
-            throw std::invalid_argument("Invalid string for isEmployee");
-        }
-    }
-    bool getIsArrivalFromString(const std::string &isArrivalStr){
-        if (isArrivalStr == "A")
-        {
-            return true;
-        }
-        else if (isArrivalStr == "L")
-        {
-            return false;
-        }
-        else
-        {
-            throw std::invalid_argument("Invalid string for isArrival");
-        }
-    }
-    // Returns a reference to the 
-    bool isValidName(const std::string &nameStr){
-        if (!isAlphabetical(nameStr)||nameStr.length()==0)
-        {
-            return false;
-        }
-        return true;
-    }
-    RoomID getRoomIDFromString(const std::string &roomIDStr){
-        const Timestamp MAX_ROOM_ID = 1073741823U;
-        if (!isNumeric(roomIDStr) || roomIDStr.length() > 10)
-        {
-            throw std::runtime_error("Invalid RoomID String");
-        }
-        auto roomID= std::strtoul(roomIDStr.c_str(), nullptr, 10);
-        if (roomID > MAX_ROOM_ID)
-        {
-            throw std::overflow_error("Timestamp is outside of acceptable range.");
-        }
-        return roomID;
-    }
+    LogEntryStringConverter &_converter = LogEntryStringConverter::instance();
+    virtual LogEntry createFromArgumentVector(const std::vector<std::string> &logEntryArgs) const = 0;
+    LogEntryParser() = default;
+
 public:
-    virtual LogEntry parse(const std::string& entryString) const= 0;
-    LogEntryParser(/* args */);
-    ~LogEntryParser();
-    std::pair<bool, LogEntry> tryParseFromCommandLineFormat(const std::string &line);
-    std::pair<bool, LogEntry> tryParseFromFileFormat(const std::string &line);
-    std::pair<bool, std::string> validateName(const std::string &line);
-    LogEntry parseFromFileFormat(const std::string &line);
-    // std::string toFileFormat(const LogEntry &entry);
-    // std::string toFileFormat(const std::list<LogEntry> &entries);
-    // std::string toFileFormat(const Gallery &gallery);
+    virtual LogEntry parse(const std::string &entryString) const = 0;
+    /// @brief Parses a string of log entries into a list of LogEntries. Each line is an entry.
+    /// @param entries String containing lines of entries.
+    /// @return The parsed list of entries.
+    virtual std::list<LogEntry> parseMany(const std::string &entries) const
+    {
+        std::vector<std::string> entryStrings = StringUtils::splitStringByDelimiter(entries, '\n');
+        std::list<LogEntry> logEntries;
+        for (auto &&entryString : entryStrings)
+        {
+            logEntries.push_back(parse(entryString));
+        }
+        return logEntries;
+    }
+    virtual ~LogEntryParser() = default;
 };
+
 class LogFileEntryParser : public LogEntryParser
 {
-    public:
-    LogEntry parse(const std::string& entryString) const override{
-        LogEntry entry;
-        std::vector<std::string> buffer(5);
-        auto it=entryString.begin();
-        while(it!=entryString.end()){
-            auto spaceIt=std::find(it, entryString.end(), ' ');
-            
-        }
+private:
+    LogFileEntryParser() {}
 
+protected:
+    /// @brief Takes a vector of strings and creates a LogEntry
+    /// @param logEntryArgs A vector of strings, assumed to be of the lenght 4 or 5
+    /// @return
+    virtual LogEntry createFromArgumentVector(const std::vector<std::string> &logEntryArgs) const override
+    {
+        const int TIME_INDEX = 0;
+        const int IS_EMPLOYEE_INDEX = 1;
+        const int NAME_INDEX = 2;
+        const int IS_ARRIVAL_INDEX = 3;
+        const int ROOM_ID_INDEX = 4;
+        if (!_converter.isValidName(logEntryArgs[NAME_INDEX]))
+        {
+            throw std::invalid_argument("Invalid name in log entry");
+        }
+        if (logEntryArgs.size() == 4)
+        {
+            return LogEntry(_converter.getIsArrivalFromString(logEntryArgs[IS_ARRIVAL_INDEX]),
+                            _converter.getIsEmployeeFromString(logEntryArgs[IS_EMPLOYEE_INDEX]),
+                            logEntryArgs[NAME_INDEX],
+                            _converter.getTimeFromString(logEntryArgs[TIME_INDEX]));
+        }
+        else if (logEntryArgs.size() == 5)
+        {
+            return LogEntry(_converter.getIsArrivalFromString(logEntryArgs[IS_ARRIVAL_INDEX]),
+                            _converter.getIsEmployeeFromString(logEntryArgs[IS_EMPLOYEE_INDEX]),
+                            logEntryArgs[NAME_INDEX],
+                            _converter.getTimeFromString(logEntryArgs[TIME_INDEX]),
+                            _converter.getRoomIDFromString(logEntryArgs[ROOM_ID_INDEX]));
+        }
+        else
+        {
+            throw std::invalid_argument("Invalid number of arguments in log entry");
+        }
+    }
+
+public:
+    static LogEntryParser &instance()
+    {
+        static LogFileEntryParser instance;
+        return instance;
+    }
+    
+    LogEntry parse(const std::string &entryString) const override
+    {
+        const auto MAX_EXPECTED_LENGTH = 5;
+        const auto MIN_EXPECTED_LENGTH = 4;
+        const char SPACE_DELIMITER = ' ';
+        // Validate that our argvector is not larger or shorter than expected
+        std::vector<std::string> logEntryArgs = StringUtils::splitStringByDelimiter(entryString, SPACE_DELIMITER, MAX_EXPECTED_LENGTH);
+        if (logEntryArgs.size() < MIN_EXPECTED_LENGTH || logEntryArgs.size() > MAX_EXPECTED_LENGTH)
+        {
+            throw std::invalid_argument("Invalid number of arguments in log entry");
+        }
+        return createFromArgumentVector(logEntryArgs);
     }
 };
-#endif  
+#endif

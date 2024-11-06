@@ -62,6 +62,7 @@ foreach(target ${TEST_TARGETS})
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/include/factories
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/utils
         ${sodium_INCLUDE_DIR}
     )
 

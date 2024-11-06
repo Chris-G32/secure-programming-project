@@ -2,7 +2,7 @@
 #define LOG_ENTRY_HPP
 #include "typedefs.hpp"
 #include <string>
-#include "regex_utils.hpp"
+
 class LogEntry
 {
 private:
@@ -28,23 +28,6 @@ private:
             _roomID = nullptr;
         }
     }
-    void LogEntry::setTimeFromString(const std::string &timeStr)
-    {
-        const Timestamp MAX_TIMESTAMP = 1073741823U;
-        if (!isNumeric(timeStr) || timeStr.length() > 10)
-        {
-            // TODO: Custom error for failure to set a logentry value
-            throw std::runtime_error("Invalid Timestamp String");
-        }
-        char **end;
-        unsigned long timestamp = std::strtoul(timeStr.c_str(), end, 10);
-        if (timestamp > MAX_TIMESTAMP || timestamp < 1)
-        {
-            throw std::overflow_error("Timestamp is outside of acceptable range.");
-        }
-        _time = timestamp;
-    }
-
 public:
     // std::string summary() const
     // {
@@ -70,21 +53,10 @@ public:
     bool isGuest() const { return !_isEmployee; }
     bool isArrival() const { return _isArrival; }
     bool isLeave() const { return !_isArrival; }
-    friend class LogEntryParser;
-    
-    // static LogEntry tryParseFromCommandLineFormat(const std::string &line)
-    // {
-    //     bool isArrival, isEmployee;
-    //     std::string name;
-    //     Timestamp time;
-    //     RoomID roomID;
-    //     // Parse the line and return a LogEntry
-    //     return LogEntry();
-    // }
+    friend class LogEntryFactory;
+
     Timestamp getTime() const { return _time; }
     const std::string &getName() const { return _name; }
-    friend class LogEntryFactory;
-    friend class LogEntryParser;
     std::pair<bool, RoomID> getRoomID() const
     {
         if (_roomID == nullptr)
@@ -96,14 +68,6 @@ public:
     LogEntry() : _roomID(nullptr) {}
     LogEntry(bool isArrival, bool isEmployee, std::string name, Timestamp time) : _roomID(nullptr)
     {
-        if (!isAlphabetical(name))
-        {
-            throw std::invalid_argument("Name must be alphabetical and not empty string.");
-        }
-        if (!(time > 0))
-        {
-            throw std::invalid_argument("Time must be greater than 0.");
-        }
         _isArrival = isArrival;
         _isEmployee = isEmployee;
         _name = name;
