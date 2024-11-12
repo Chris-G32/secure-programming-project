@@ -1,15 +1,19 @@
-#ifndef STRING_UTILS_HPP
-#define STRING_UTILS_HPP
+#ifndef STR_AS_UCHAR_STAR
+#define STR_AS_UCHAR_STAR(text) ((unsigned char *)(text.c_str()))
+#endif
+#ifndef CUSTOM_STRING_UTILS_HPP
+#define CUSTOM_STRING_UTILS_HPP
 #include <string>
 #include <vector>
 #include <algorithm>
+
 namespace StringUtils
 {
     /// @brief Splits a string by spaces
     /// @param str
     /// @param maxBufferSize
     /// @return The vector of split string, if it is one longer than maxBufferSize, the last element will be the remainder of the string.
-    std::vector<std::string> splitStringByDelimiter(const std::string &str, const char delimiter, const size_t maxBufferSize = 0)
+    inline std::vector<std::string> splitStringByDelimiter(const std::string &str, const char delimiter, const size_t maxBufferSize = 0)
     {
         if (str.empty())
         {

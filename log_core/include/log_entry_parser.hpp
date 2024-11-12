@@ -2,7 +2,7 @@
 #define LOG_ENTRY_PARSER_HPP
 #include "log_entry.hpp"
 #include "log_entry_string_converter.hpp"
-#include "utils/string_utils.hpp"
+#include "utils/custom_string_utils.hpp"
 #include <list>
 class LogEntryParser
 {
@@ -76,7 +76,7 @@ public:
         static LogFileEntryParser instance;
         return instance;
     }
-    
+
     LogEntry parse(const std::string &entryString) const override
     {
         const auto MAX_EXPECTED_LENGTH = 5;

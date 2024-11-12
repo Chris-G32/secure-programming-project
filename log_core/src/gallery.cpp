@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <list>
-bool Gallery::validateStateUpdate(const Attendee &attendee, const GalleryEvent &event)
+bool Gallery::validateStateUpdate(const Attendee &attendee, const GalleryEvent &event) const
 {
     if (event._time <= _lastUpdateTime)
     {

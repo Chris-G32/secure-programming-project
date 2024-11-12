@@ -2,6 +2,7 @@
 #define LOG_ENTRY_HPP
 #include "typedefs.hpp"
 #include <string>
+#include <sstream>
 
 class LogEntry
 {
@@ -28,7 +29,21 @@ private:
             _roomID = nullptr;
         }
     }
+
 public:
+    std::string toFileFormat() const
+    {
+        std::ostringstream oss;
+        char employeeStatus = _isEmployee ? 'E' : 'G';
+        char arrivalStatus = _isArrival ? 'A' : 'L';
+        const char SPACE = ' ';
+        oss << _time << SPACE << employeeStatus << SPACE << _name << SPACE << arrivalStatus;
+        if (_roomID != nullptr)
+        {
+            oss << SPACE << *_roomID;
+        }
+        return oss.str();
+    }
     // std::string summary() const
     // {
     //     std::string summaryText;

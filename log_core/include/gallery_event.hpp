@@ -10,10 +10,9 @@ private:
     friend class Gallery;
 
 public:
-    bool isGalleryEntry() const { return _isArrival && _roomID == nullptr; }
-    bool isGalleryExit() const { return !_isArrival && _roomID == nullptr; }
-    bool isRoomEntry() const { return _isArrival && _roomID != nullptr; }
-    bool isRoomExit() const { return !_isArrival && _roomID != nullptr; }
+    // Getters
+    bool isArrival() { return _isArrival; }
+    Timestamp getTime() { return _time; }
     std::pair<bool, RoomID> getRoomId()
     {
         if (_roomID == nullptr)
@@ -22,6 +21,11 @@ public:
         }
         return std::make_pair(true, *_roomID);
     }
+    // Predicates
+    bool isGalleryEntry() const { return _isArrival && _roomID == nullptr; }
+    bool isGalleryExit() const { return !_isArrival && _roomID == nullptr; }
+    bool isRoomEntry() const { return _isArrival && _roomID != nullptr; }
+    bool isRoomExit() const { return !_isArrival && _roomID != nullptr; }
     // No assumptions can be made other than roomid is null
     GalleryEvent() {}
     GalleryEvent(Timestamp time, bool arrival)

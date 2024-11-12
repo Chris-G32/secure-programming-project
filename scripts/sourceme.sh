@@ -2,10 +2,10 @@
 
 # Set some env vars for our other scripts
 # Define the environment variables
-export SEC_PROG_PATH="/home/chris/coding_projects/secure-programming-project"
+export SEC_PROG_PATH="/home/chris/ksu-projects/secure-programming-project"
 export LOG_CORE_PATH="${SEC_PROG_PATH}/log_core"
 export SEC_PROG_BUILD_PATH="${SEC_PROG_PATH}/build"
-
+mkdir -p $SEC_PROG_BUILD_PATH
 # Optional: Print the values to verify
 echo "SEC_PROG_PATH is set to: $SEC_PROG_PATH"
 echo "LOG_CORE_PATH is set to: $LOG_CORE_PATH"
