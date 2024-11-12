@@ -34,6 +34,7 @@
 build
 CMakeLists.txt.user
 CMakeCache.txt
+
 CMakeFiles/*
 CMakeScripts
 Testing
@@ -49,3 +50,4 @@ DartConfiguration.tcl
 Makefile
 *CTest*
 CMakeFiles
+libsodium-stable/*
