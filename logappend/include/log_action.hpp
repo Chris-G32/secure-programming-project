@@ -6,7 +6,7 @@ struct LogAction
 {
     LogEntry entry;
     std::string key;
-    std::string logFilePath;
+    std::string logFileName;
 };
 
 #endif

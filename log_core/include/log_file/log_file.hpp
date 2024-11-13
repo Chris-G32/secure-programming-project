@@ -25,6 +25,10 @@ protected:
 
 public:
     LogFile(const LogEntryParser &parser, const LogFileCryptographyProvider &cryptoProvider) : _entryParser(parser), _cryptoProvider(cryptoProvider) {}
+    LogFile(const LogEntryParser &parser, const LogFileCryptographyProvider &cryptoProvider, const std::string &key) : _entryParser(parser), _cryptoProvider(cryptoProvider)
+    {
+        _keyHash = _cryptoProvider.hashText(key);
+    }
     /// @brief Loads a log file from its containing data
     /// @param rawFileData
     /// @param key

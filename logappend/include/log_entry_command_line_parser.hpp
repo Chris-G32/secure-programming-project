@@ -11,23 +11,25 @@
 class LogActionParser
 {
 private:
+    const uint MAX_ALLOWED_ACTION_ARGS_LENGTH;
+    const uint MIN_ALLOWED_ACTION_ARGS_LENGTH = 8;
+
 public:
-    LogAction parse(const std::string &actionString)
+    LogActionParser(const uint maxArgsLength = 10) : MAX_ALLOWED_ACTION_ARGS_LENGTH(maxArgsLength) {}
+    LogAction parse(const std::vector<std::string> &actionArgs)
     {
         const std::runtime_error malformedCommandError("Received a malformed logentry command. Must follow the form of -T <timestamp> -K <token> (-E <employee-name> | -G <guest-name>) (-A | -L) [-R <room-id>] <log>");
-        auto commandArgs = StringUtils::splitStringByDelimiter(actionString, ' ', 10);
-        const uint MAX_ALLOWED_LENGTH = 10;
-        const uint MIN_ALLOWED_LENGTH = 8;
-        //-T <timestamp> -K <token> (-E <employee-name> | -G <guest-name>) (-A | -L) [-R <room-id>] <log>
-        //         -t 1 -k 1 -E a -A
-        LogEntryFactory entryFactory;
+        if (actionArgs.size() > MAX_ALLOWED_ACTION_ARGS_LENGTH || actionArgs.size() < MIN_ALLOWED_ACTION_ARGS_LENGTH)
+        {
+            throw malformedCommandError;
+        }
         std::set<char>
             flagsSeenSet;
-        auto it = commandArgs.begin();
+        auto it = actionArgs.begin();
         LogAction action;
 
         auto strConverter = LogEntryStringConverter::instance();
-        while (it != commandArgs.end() - 1)
+        while (it != actionArgs.end() - 1)
         {
             std::string flag = *it;
             if (flag.size() != 2)
@@ -101,8 +103,13 @@ public:
         {
             throw malformedCommandError;
         }
-        action.logFilePath = *it;
+        action.logFileName = *it;
         return action;
+    }
+    LogAction parse(const std::string &actionString)
+    {
+        auto commandArgs = StringUtils::splitStringByDelimiter(actionString, ' ', MAX_ALLOWED_ACTION_ARGS_LENGTH);
+        return parse(commandArgs);
     }
 };
 #endif
