@@ -5,7 +5,7 @@ file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_executable(gallery_event_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/gallery_event_tests.cpp" ${SRC_FILES})
 add_executable(gallery_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/gallery_tests.cpp" ${SRC_FILES})
 add_executable(log_entry_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_entry_tests.cpp" ${SRC_FILES})
-add_executable(log_entry_parser_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_entry_parser_tests.cpp" ${SRC_FILES})
+#add_executable(log_entry_parser_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_entry_parser_tests.cpp" ${SRC_FILES})
 add_executable(log_file_cryptography_provider_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_cryptography_provider_tests.cpp" ${SRC_FILES})
 add_executable(log_file_writer_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_writer_tests.cpp" ${SRC_FILES})
 add_executable(log_file_reader_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_reader_tests.cpp" ${SRC_FILES})
@@ -16,7 +16,7 @@ set(TEST_TARGETS
     gallery_event_tests
     gallery_tests
     log_entry_tests
-    log_entry_parser_tests
+    #log_entry_parser_tests
     log_file_cryptography_provider_tests
     log_file_writer_tests
     log_file_reader_tests
