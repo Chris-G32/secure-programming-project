@@ -1,15 +1,12 @@
-add_executable(log_file_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_tests.cpp" ${SRC_FILES})
+# List all source files in the src directory
+file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+
+# List all executables to add
+add_executable(main "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp" ${SRC_FILES})
 
 # List of all test executables
 set(TEST_TARGETS
     gallery_event_tests
-    gallery_tests
-    log_entry_tests
-    log_entry_parser_tests
-    log_file_cryptography_provider_tests
-    log_file_writer_tests
-    log_file_reader_tests
-    log_file_tests
 )
 
 # Apply settings to all test executables
