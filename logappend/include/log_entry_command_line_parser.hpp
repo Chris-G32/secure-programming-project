@@ -31,18 +31,18 @@ public:
         auto strConverter = LogEntryStringConverter::instance();
         while (it != actionArgs.end() - 1)
         {
-            std::string flag = *it;
-            if (flag.size() != 2)
+            std::string flagStringWithDash = *it;
+            if (flagStringWithDash.size() != 2)
             {
                 throw malformedCommandError;
             }
-            std::regex flagRegex("R(-[TEGALKR])");
-            if (!std::regex_match(flag, flagRegex))
+            std::regex flagRegex("^-[KTALEGR]$");
+            if (!std::regex_match(flagStringWithDash, flagRegex))
             {
                 throw malformedCommandError;
             };
             // We know the flag is of length 2 so this is safe.
-            char flagCharacter = flag.at(1);
+            char flagCharacter = flagStringWithDash.at(1);
 
             // No repeat flags
             if (flagsSeenSet.count(flagCharacter) > 0)
@@ -74,7 +74,8 @@ public:
                 {
                     throw malformedCommandError;
                 }
-                action.entry.setIsEmployee(strConverter.getIsEmployeeFromString(std::string(flag)));
+                
+                action.entry.setIsEmployee(strConverter.getIsEmployeeFromString({flagCharacter}));
                 action.entry.setName(strConverter.isValidName(*it) ? *it : throw new std::runtime_error("Invalid name argument."));
                 std::advance(it, 1);
                 break;
@@ -88,7 +89,7 @@ public:
                 {
                     throw malformedCommandError;
                 }
-                action.entry.setIsArrival(strConverter.getIsArrivalFromString(std::string(flag)));
+                action.entry.setIsArrival(strConverter.getIsArrivalFromString({flagCharacter}));
                 break;
             case ROOM_ID_FLAG:
                 action.entry.setRoomID(strConverter.getRoomIDFromString(*it));

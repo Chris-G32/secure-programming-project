@@ -22,26 +22,33 @@ void LogAppend::process(std::ifstream &file)
 }
 void LogAppend::processAction(const LogAction &action)
 {
+    using namespace std::filesystem;
     // Check if file exists
     // If it does exist load it from the file
     // If not create a file in memory
     /*============================================================*/
     bool fileIsCached = _logFiles.count(action.logFileName) > 0;
-    auto logFileExists = std::filesystem::exists(action.logFileName);
-
-    LogFile logFile = fileIsCached || logFileExists ? cachedLoad(action) : _logFileFactory.create(action.key);
+    auto logFileExists = exists(action.logFileName);
 
     if (!fileIsCached)
     {
-        _logFiles.insert(std::make_pair(action.logFileName, logFile));
+        if(logFileExists)
+        {
+            std::ifstream logFileStream(action.logFileName);
+            _logFiles.emplace(action.logFileName, _logFileFactory.create(logFileStream, action.key));
+        }
+        else
+        {
+            _logFiles.emplace(action.logFileName, _logFileFactory.create(action.key));
+        }
     }
 
-    auto gallery = logFile.authorizedGalleryGet(action.key);
-    gallery.updateState(action.entry);
+    _logFiles.at(action.logFileName).authorizedGalleryGet(action.key).updateState(action.entry);
 }
 
 void LogAppend::process()
 {
+
     if (isBatchFileCommand())
     {
         std::ifstream batchFile(_commandLineArgs[1]); // This will be the file path
@@ -54,13 +61,21 @@ void LogAppend::process()
     }
     else
     {
+
         try
         {
             auto action = _actionParser.parse(_commandLineArgs);
+            std::cout << "Received valid formatted action\n";
             processAction(action);
+            auto logFile = _logFiles.at(action.logFileName);
+            std::ofstream file(action.logFileName);
+            _fileWriter.write(logFile.authorizedGalleryGet(action.key), file, action.key);
+            file.close();
+            std::cout << "Successfully process action\n";
         }
-        catch (...)
+        catch (std::exception &e)
         {
+            std::cerr << "Invalid command: " << e.what() << std::endl;
             exit(255);
         }
     }

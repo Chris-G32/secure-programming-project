@@ -27,19 +27,20 @@ TEST_F(LogFileWriterTests, TestOneEntryWrite)
 
     entries.emplace_back(true, true, "name", 2, 100);
     entries.emplace_back(false, true, "name", 3, 100);
-    entries.emplace_back(true, false, "otherGuy", 5);
+    entries.emplace_back(true, false, "dsadfsfsdfehjbshdajjhfdfgevgshafvddjsahfvdytgfvdsfjdsghjsavjhgdsafsadfghsahjsafghj", 5);
     entries.emplace_back(false, true, "name", 6);
     std::cout
         << "Post list\n";
 
     Gallery gallery(entries);
 
-    std::string key = "abced";
+    std::string key = "1234567890-02148329489sadsadas834893429";
     LogFileWriter writer(cryptoProvider);
     std::stringstream stream;
     writer.write(gallery, stream, key);
     std::cout << "Write Complete...\n";
     stream.seekg(0);
+    stream.seekp(0);
     LogFileReader reader(parser, cryptoProvider);
     auto result = reader.load(stream, key);
     auto storedGallery = result.authorizedGalleryGet(key);

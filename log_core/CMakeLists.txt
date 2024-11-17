@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(secure-programming-project)
+project(log_core)
 
 # Enable testing
 include(CTest)
@@ -17,9 +17,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+set(CMAKE_BUILD_TYPE Debug)
 # Add the cmake folder to the module path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -39,7 +39,22 @@ add_executable(log_file_cryptography_provider_tests "${CMAKE_CURRENT_SOURCE_DIR}
 add_executable(log_file_writer_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_writer_tests.cpp" ${SRC_FILES})
 add_executable(log_file_reader_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_reader_tests.cpp" ${SRC_FILES})
 add_executable(log_file_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_tests.cpp" ${SRC_FILES})
-
+# Create the shared library
+add_library(log_core SHARED ${SRC_FILES})
+target_include_directories(log_core
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/factories
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/log_file
+)
+target_include_directories(log_core
+    PRIVATE
+    ${sodium_INCLUDE_DIR})
+target_link_libraries(log_core
+    PUBLIC
+    sodium
+)
 # List of all test executables
 set(TEST_TARGETS
     gallery_event_tests

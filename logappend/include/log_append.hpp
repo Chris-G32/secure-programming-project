@@ -1,10 +1,12 @@
 #ifndef LOG_APPEND_HPP
 #define LOG_APPEND_HPP
 #include <fstream>
+#include <unordered_map>
 #include "log_file.hpp"
 #include "log_file_reader.hpp"
 #include "log_file_writer.hpp"
 #include "log_entry_command_line_parser.hpp"
+#include "log_file_factory.hpp"
 class LogAppend
 {
 private:
@@ -17,16 +19,7 @@ private:
     void process(std::ifstream &file);
     std::unordered_map<std::string, LogFile> _logFiles;
     // Loads assocciated file from filesystem or memory if cached
-    LogFile cachedLoad(const LogAction &action)
-    {
-        auto logFile = _logFiles.find(action.logFileName);
-        if (logFile != _logFiles.end())
-        {
-            return logFile->second;
-        }
-        std::ifstream logFileStream(action.logFileName);
-        return _logFileFactory.create(logFileStream, action.key);
-    }
+    
     void processAction(const LogAction &action);
 
 public:

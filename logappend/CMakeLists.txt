@@ -17,9 +17,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+set(CMAKE_BUILD_TYPE Debug)
 # Add the cmake folder to the module path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -27,13 +27,17 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(sodium REQUIRED)
 # Find Google Test
 find_package(GTest REQUIRED)
-find_package(log_core REQUIRED)
+
 # List all source files in the src directory
 file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 # Add the executable
-add_executable(logappend "${CMAKE_CURRENT_SOURCE_DIR}main.cpp" ${SRC_FILES})
-
+add_executable(logappend "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp" ${SRC_FILES})
+target_include_directories(logappend
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+target_link_libraries(logappend PRIVATE log_core sodium)
 # # List of all test executables
 # set(TEST_TARGETS
 #     logappend

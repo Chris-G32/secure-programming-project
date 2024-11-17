@@ -3,10 +3,7 @@
 #include "../log_entry.hpp"
 #include "../attendee.hpp"
 #include "../gallery_event.hpp"
-class LogEntryBuilder
-{
-public:
-};
+
 
 class LogEntryFactory
 {
@@ -21,14 +18,14 @@ public:
     ~LogEntryFactory();
 };
 
-LogEntryFactory::LogEntryFactory(/* args */)
+inline LogEntryFactory::LogEntryFactory(/* args */)
 {
 }
 
-LogEntryFactory::~LogEntryFactory()
+inline LogEntryFactory::~LogEntryFactory()
 {
 }
-LogEntry LogEntryFactory::create(bool isArrival, bool isEmployee, std::string name, Timestamp time)
+inline LogEntry LogEntryFactory::create(bool isArrival, bool isEmployee, std::string name, Timestamp time)
 {
     LogEntry entry;
     entry._isArrival = isArrival;
@@ -37,17 +34,17 @@ LogEntry LogEntryFactory::create(bool isArrival, bool isEmployee, std::string na
     entry._time = time;
     return entry;
 }
-LogEntry LogEntryFactory::create(bool isArrival, bool isEmployee, std::string name, Timestamp time, RoomID roomID)
+inline LogEntry LogEntryFactory::create(bool isArrival, bool isEmployee, std::string name, Timestamp time, RoomID roomID)
 {
     LogEntry entry = create(isArrival, isEmployee, name, time);
     entry._roomID = new RoomID(roomID);
     return entry;
 }
-LogEntry LogEntryFactory::createGalleryEntry(bool isEmployee, std::string name, Timestamp time)
+inline LogEntry LogEntryFactory::createGalleryEntry(bool isEmployee, std::string name, Timestamp time)
 {
     return create(true, isEmployee, name, time);
 }
-LogEntry LogEntryFactory::create(GalleryEvent event, Attendee attendee)
+inline LogEntry LogEntryFactory::create(GalleryEvent event, Attendee attendee)
 {
     auto roomID = event.getRoomId();
     if (roomID.first)

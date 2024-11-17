@@ -18,9 +18,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+set(CMAKE_BUILD_TYPE Debug)
 # Add the cmake folder to the module path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -32,6 +32,6 @@ find_package(GTest REQUIRED)
 
 # Add subdirectories for each project
 add_subdirectory(log_core)
-#add_subdirectory(logappend)
+add_subdirectory(logappend)
 #add_subdirectory(logread)
 
