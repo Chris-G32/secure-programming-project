@@ -35,6 +35,6 @@ LogFile LogFileReader::load(std::istream &logStream, const std::string &key) con
         throw std::runtime_error("Error reading from the input stream");
     }
     LogFile file(_entryParser, _cryptoProvider);
-    file.loadRaw(buffer, key);
+    file.loadRaw(fileContents, key);
     return file;
 }

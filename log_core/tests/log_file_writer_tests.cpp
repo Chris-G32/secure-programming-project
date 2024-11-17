@@ -24,9 +24,16 @@ TEST_F(LogFileWriterTests, TestOneEntryWrite)
     std::list<LogEntry> entries;
     std::cout << "Pre list\n";
     entries.push_back(entry);
-    std::cout << "Post list\n";
+
+    entries.emplace_back(true, true, "name", 2, 100);
+    entries.emplace_back(false, true, "name", 3, 100);
+    entries.emplace_back(true, false, "otherGuy", 5);
+    entries.emplace_back(false, true, "name", 6);
+    std::cout
+        << "Post list\n";
 
     Gallery gallery(entries);
+
     std::string key = "abced";
     LogFileWriter writer(cryptoProvider);
     std::stringstream stream;
@@ -38,7 +45,7 @@ TEST_F(LogFileWriterTests, TestOneEntryWrite)
     auto storedGallery = result.authorizedGalleryGet(key);
     ASSERT_EQ(storedGallery.getLastUpdate(), gallery.getLastUpdate());
     ASSERT_EQ(storedGallery.getGalleryState().size(), gallery.getGalleryState().size());
-    ASSERT_EQ(storedGallery.getGalleryState().begin()->first.getName(), entry.getName());
+    ASSERT_NE(storedGallery.getGalleryState().find(Attendee(entry.getName(), entry.isEmployee())), storedGallery.getGalleryState().end());
 }
 
 int main(int argc, char **argv)

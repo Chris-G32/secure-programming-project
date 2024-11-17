@@ -48,7 +48,6 @@ std::vector<unsigned char> LogFileCryptographyProvider::encrypt(const std::vecto
 bool LogFileCryptographyProvider::isNotModified(const std::vector<unsigned char> &text, const std::vector<unsigned char> &hmac, const std::string &key) const
 {
     std::vector<unsigned char> keyHash(crypto_hash_sha256_BYTES);
-    keyHash.resize(crypto_hash_sha256_BYTES);
     crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(key), key.size());
 
     if (keyHash.size() != 32)
@@ -65,14 +64,12 @@ bool LogFileCryptographyProvider::isNotModified(const std::vector<unsigned char>
 std::vector<unsigned char> LogFileCryptographyProvider::generateHMAC(const std::vector<unsigned char> &rawFileData, const std::string &key) const
 {
     std::vector<unsigned char> keyHash(crypto_hash_sha256_BYTES);
-    keyHash.resize(crypto_hash_sha256_BYTES);
     crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(key), key.size());
     if (keyHash.size() != 32)
     {
         throw std::invalid_argument("Key must be exactly 32 bytes for HMAC");
     }
     std::vector<unsigned char> hmacBuffer(crypto_auth_hmacsha512_BYTES);
-    hmacBuffer.resize(crypto_auth_hmacsha512_BYTES);
     crypto_auth_hmacsha512(hmacBuffer.data(), rawFileData.data(), rawFileData.size(), keyHash.data());
     return hmacBuffer;
 }

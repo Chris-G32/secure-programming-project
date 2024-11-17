@@ -8,3 +8,7 @@ bool Attendee::operator<(const Attendee &rhs) const
 
     return rhs._isEmployee;
 }
+bool Attendee::operator==(const Attendee &rhs) const
+{
+    return _isEmployee == rhs._isEmployee && _name == rhs._name;
+}
