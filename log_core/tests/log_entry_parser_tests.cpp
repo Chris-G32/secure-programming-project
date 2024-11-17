@@ -1,16 +1,17 @@
 #include <gtest/gtest.h>
-#include "log_file.hpp"
+#include "log_file/log_file.hpp"
 #include <random>
 
 class LogFileTests : public testing::Test
 {
 protected:
-    
+    LogEntryParser &parser = LogFileEntryParser::instance();
+    LogFileCryptographyProvider cryptoProvider;
 };
 
 TEST_F(LogFileTests, DefaultConstructor)
 {
-    LogFile logFile(LogFileEntryParser::instance());
+    LogFile logFile(parser,cryptoProvider);
 }
 
 int main(int argc, char **argv)

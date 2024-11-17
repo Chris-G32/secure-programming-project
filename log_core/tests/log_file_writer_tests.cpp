@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "log_file_writer.hpp"
-#include "log_file_reader.hpp"
+#include "log_file/log_file_writer.hpp"
+#include "log_file/log_file_reader.hpp"
 #include <iostream>
 #include <streambuf>
 class LogFileWriterTests : public testing::Test

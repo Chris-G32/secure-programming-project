@@ -27,17 +27,17 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(sodium REQUIRED)
 # Find Google Test
 find_package(GTest REQUIRED)
-find_package()
+find_package(log_core REQUIRED)
 # List all source files in the src directory
 file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 # Add the executable
 add_executable(logappend "${CMAKE_CURRENT_SOURCE_DIR}main.cpp" ${SRC_FILES})
 
-# List of all test executables
-set(TEST_TARGETS
-    logappend
-)
+# # List of all test executables
+# set(TEST_TARGETS
+#     logappend
+# )
 
 # Apply settings to all test executables
 foreach(target ${TEST_TARGETS})
