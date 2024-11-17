@@ -30,7 +30,7 @@ std::vector<unsigned char> LogFileCryptographyProvider::decrypt(const std::vecto
     {
         throw std::runtime_error("Invalid key!");
     }
-    crypto_stream_chacha20_xor(data.data(), data.data(), data.size(), nonce, key);
+    crypto_stream_chacha20_xor(data.data(), data.data(), data.size(), nonce, hashText(keyInput).data());
     return data;
 }
 
@@ -40,7 +40,7 @@ std::vector<unsigned char> LogFileCryptographyProvider::encrypt(const std::vecto
     const auto dataPortionOffset = NONCE_BYTES + KEY_BYTES;
     unsigned char nonce[NONCE_BYTES];
     randombytes_buf(nonce, NONCE_BYTES);
-    crypto_stream_chacha20_xor(buffer.data() + dataPortionOffset, plaintextData.data(), plaintextData.size(), nonce, STR_AS_UCHAR_STAR(key));
+    crypto_stream_chacha20_xor(buffer.data() + dataPortionOffset, plaintextData.data(), plaintextData.size(), nonce, hashText(key).data());
     crypto_hash_sha256(buffer.data() + NONCE_BYTES, STR_AS_UCHAR_STAR(key), key.size());
     memcpy(buffer.data(), nonce, NONCE_BYTES);
     return buffer;
