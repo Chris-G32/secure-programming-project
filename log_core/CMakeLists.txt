@@ -39,6 +39,7 @@ add_executable(log_file_cryptography_provider_tests "${CMAKE_CURRENT_SOURCE_DIR}
 add_executable(log_file_writer_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_writer_tests.cpp" ${SRC_FILES})
 add_executable(log_file_reader_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_reader_tests.cpp" ${SRC_FILES})
 add_executable(log_file_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_tests.cpp" ${SRC_FILES})
+
 # Create the shared library
 add_library(log_core SHARED ${SRC_FILES})
 target_include_directories(log_core

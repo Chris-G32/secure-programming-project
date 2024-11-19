@@ -20,60 +20,55 @@ FetchContent_MakeAvailable(googletest)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE Debug)
+
 # Add the cmake folder to the module path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# Find libsodium
+# Find required packages
 find_package(sodium REQUIRED)
-# Find Google Test
 find_package(GTest REQUIRED)
 
 # List all source files in the src directory
 file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-# Add the executable
-add_executable(logappend "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp" ${SRC_FILES})
+# First, create the shared library
+add_library(logappend SHARED ${SRC_FILES})
 target_include_directories(logappend
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../log_core/include  # Add log_core include path
+    ${sodium_INCLUDE_DIR}
 )
-target_link_libraries(logappend PRIVATE log_core sodium)
-# # List of all test executables
-# set(TEST_TARGETS
-#     logappend
-# )
+target_link_libraries(logappend 
+    PRIVATE 
+    sodium
+    log_core  # Link against log_core if it's a separate library
+)
 
-# Apply settings to all test executables
-foreach(target ${TEST_TARGETS})
-    # Link libraries
-    target_link_libraries(${target}
-        PRIVATE
-        sodium
-        GTest::gtest
-        GTest::gtest_main
-    )
+# Then create the test executable
+add_executable(log_append_test "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_append_test.cpp")
+target_link_libraries(log_append_test
+    PRIVATE
+    logappend
+    sodium
+    GTest::gtest
+    GTest::gtest_main
+    log_core  # Link against log_core if it's a separate library
+)
 
-    # Add pthread on Unix systems
-    if(UNIX AND NOT APPLE)
-        target_link_libraries(${target} PRIVATE pthread)
-    endif()
+# Add pthread on Unix systems
+if(UNIX AND NOT APPLE)
+    target_link_libraries(log_append_test PRIVATE pthread)
+endif()
 
-    # Add include directories
-    target_include_directories(${target}
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/factories
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/utils
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/log_file
-        ${sodium_INCLUDE_DIR}
-    )
+# Add include directories for test
+target_include_directories(log_append_test
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../log_core/include  # Add log_core include path
+    ${sodium_INCLUDE_DIR}
+)
 
-    # Add test
-    add_test(NAME ${target} COMMAND ${target})
-    gtest_discover_tests(${target})
-endforeach()
-
-# Print some debug information
-# message(STATUS "sodium_INCLUDE_DIR: ${sodium_INCLUDE_DIR}")
-# message(STATUS "Project source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
-# message(STATUS "Test file location: ${CMAKE_CURRENT_SOURCE_DIR}/tests/gallery_event_tests.cpp")
+# Add test
+add_test(NAME log_append_test COMMAND log_append_test)
+gtest_discover_tests(log_append_test)
