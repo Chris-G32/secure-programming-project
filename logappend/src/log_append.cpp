@@ -6,19 +6,29 @@ void LogAppend::process(std::ifstream &file)
 {
     std::string line;
     int lineNum = 0;
+    std::unordered_map<std::string,std::string> logFileNameToKeys;
     while (std::getline(file, line))
     {
         lineNum++;
         // Read line by line
         try
         {
-            processAction(_actionParser.parse(line));
+            auto action=_actionParser.parse(line);
+            processAction(action);
+            logFileNameToKeys[action.logFileName]=action.key;
         }
-        catch (...)
+        catch (std::exception &e)
         {
             std::cerr << "Invalid command at line " << lineNum << " of " << _commandLineArgs[1] << std::endl;
         }
     }
+    for(auto& logfile:_logFiles){
+            auto name = logfile.first;
+            auto logFile = logfile.second;
+            std::ofstream file(logfile.first);
+            _fileWriter.write(logFile.authorizedGalleryGet(logFileNameToKeys.at(name)), file, logFileNameToKeys.at(name));
+            file.close();
+        }
 }
 void LogAppend::processAction(const LogAction &action)
 {
@@ -56,7 +66,16 @@ void LogAppend::process()
         {
             exit(255);
         }
-        process(batchFile);
+        try{
+            process(batchFile);
+        }
+        catch(std::exception&e)
+        {
+            std::cerr << "Error processing batchfile. "<<e.what()<<"\n";
+            batchFile.close();
+            exit(255);
+        }
+        batchFile.close();
         return;
     }
     else

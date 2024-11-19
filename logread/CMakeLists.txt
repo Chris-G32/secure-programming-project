@@ -1,13 +1,47 @@
+cmake_minimum_required(VERSION 3.15)
+project(logread)
+
+# Enable testing
+include(CTest)
+enable_testing()
+
+# Add Google Test
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+)
+
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_BUILD_TYPE Debug)
+# Add the cmake folder to the module path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+# Find libsodium
+find_package(sodium REQUIRED)
+# Find Google Test
+find_package(GTest REQUIRED)
+
 # List all source files in the src directory
 file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-# List all executables to add
-add_executable(main "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp" ${SRC_FILES})
-
-# List of all test executables
-set(TEST_TARGETS
-    gallery_event_tests
+# Add the executable
+add_executable(logread "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp" ${SRC_FILES})
+target_include_directories(logread
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+target_link_libraries(logread PRIVATE log_core sodium)
+# # List of all test executables
+# set(TEST_TARGETS
+#     logappend
+# )
 
 # Apply settings to all test executables
 foreach(target ${TEST_TARGETS})
@@ -38,3 +72,8 @@ foreach(target ${TEST_TARGETS})
     add_test(NAME ${target} COMMAND ${target})
     gtest_discover_tests(${target})
 endforeach()
+
+# Print some debug information
+# message(STATUS "sodium_INCLUDE_DIR: ${sodium_INCLUDE_DIR}")
+# message(STATUS "Project source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
+# message(STATUS "Test file location: ${CMAKE_CURRENT_SOURCE_DIR}/tests/gallery_event_tests.cpp")

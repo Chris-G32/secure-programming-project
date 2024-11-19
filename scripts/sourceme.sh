@@ -21,8 +21,12 @@ runTestsVerbose(){
     runTests "--rerun-failed --output-on-failure"
 }
 buildProj(){
-    cd $SEC_PROG_PATH/scripts
-    bash build_log_core_tests.sh
+    cd $SEC_PROG_PATH
+    cmake -B build -S .
+    cd build
+    make
+    cp logappend/logappend $SEC_PROG_PATH/executables
+    cp logread/logread $SEC_PROG_PATH/executables
 }
 buildAndTest(){
     buildProj

@@ -33,5 +33,5 @@ find_package(GTest REQUIRED)
 # Add subdirectories for each project
 add_subdirectory(log_core)
 add_subdirectory(logappend)
-#add_subdirectory(logread)
+add_subdirectory(logread)
 
