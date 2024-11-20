@@ -66,6 +66,7 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
             {
                 return new RoomsQueryAction(logFileName, key, attendee);
             };
+            std::advance(it, 1);
             break;
         }
         case STATE_QUERY_FLAG:
@@ -79,6 +80,7 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
             {
                 return new StateQueryAction(logFileName, key);
             };
+            std::advance(it, 1);
             break;
         }
         case KEY_FLAG:
@@ -95,7 +97,7 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
             throw malformedCommandError;
         }
         }
-            std::advance(it, 1);
+            
     }
         return buildQueryAction(key);
 }
