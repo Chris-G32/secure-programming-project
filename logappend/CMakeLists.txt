@@ -32,7 +32,7 @@ find_package(GTest REQUIRED)
 file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 # First, create the shared library
-add_library(logappend SHARED ${SRC_FILES})
+add_executable(logappend "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp" ${SRC_FILES})
 target_include_directories(logappend
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -46,10 +46,9 @@ target_link_libraries(logappend
 )
 
 # Then create the test executable
-add_executable(log_append_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_append_tests.cpp")
+add_executable(log_append_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_append_tests.cpp" ${SRC_FILES})
 target_link_libraries(log_append_tests
     PRIVATE
-    logappend
     sodium
     GTest::gtest
     GTest::gtest_main

@@ -64,6 +64,7 @@ void LogAppend::process()
         std::ifstream batchFile(_commandLineArgs[1]); // This will be the file path
         if (!batchFile.is_open())
         {
+            std::cout<<"invalid";
             exit(255);
         }
         try{
@@ -94,7 +95,8 @@ void LogAppend::process()
         }
         catch (std::exception &e)
         {
-            std::cerr << "Invalid command: " << e.what() << std::endl;
+            std::cout<<"invalid";
+            // std::cerr << "Invalid command: " << e.what() << std::endl;
             exit(255);
         }
     }
