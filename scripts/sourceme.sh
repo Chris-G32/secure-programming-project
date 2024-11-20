@@ -2,7 +2,7 @@
 
 # Set some env vars for our other scripts
 # Define the environment variables
-export SEC_PROG_PATH="/home/chris/coding_projects/secure-programming-project"
+export SEC_PROG_PATH=""
 export LOG_CORE_PATH="${SEC_PROG_PATH}/log_core"
 export LOG_APPEND_PATH="${SEC_PROG_PATH}/logappend"
 export SEC_PROG_BUILD_PATH="${SEC_PROG_PATH}/build"
