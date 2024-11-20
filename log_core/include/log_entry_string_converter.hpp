@@ -57,7 +57,7 @@ public:
             throw std::invalid_argument("Invalid string for isArrival");
         }
     }
-    // Returns a reference to the
+
     bool isValidName(const std::string &nameStr) const
     {
         if (!RegexUtils::isAlphabetical(nameStr) || nameStr.length() == 0)

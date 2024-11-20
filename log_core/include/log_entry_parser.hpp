@@ -66,7 +66,7 @@ protected:
         }
         else
         {
-            throw std::invalid_argument("Invalid number of arguments in log entry");
+            throw std::invalid_argument("Invalid number of arguments in log entry: " + std::to_string(logEntryArgs.size()));
         }
     }
 
@@ -86,7 +86,12 @@ public:
         std::vector<std::string> logEntryArgs = StringUtils::splitStringByDelimiter(entryString, SPACE_DELIMITER, MAX_EXPECTED_LENGTH);
         if (logEntryArgs.size() < MIN_EXPECTED_LENGTH || logEntryArgs.size() > MAX_EXPECTED_LENGTH)
         {
-            throw std::invalid_argument("Invalid number of arguments in log entry");
+            for (auto &i : logEntryArgs)
+            {
+                std::cerr << i << ", ";
+            }
+            std::cerr << "\n";
+            throw std::invalid_argument("Invalid number of arguments in log entry: " + std::to_string(logEntryArgs.size()));
         }
         return createFromArgumentVector(logEntryArgs);
     }

@@ -21,7 +21,7 @@ namespace RegexUtils
     }
     inline bool isValidLogFileName(const std::string &toCheck)
     {
-        static const std::regex isAlnumPeriodOrUnderscore(R"([a-zA-z0-9._]+)");
+        static const std::regex isAlnumPeriodOrUnderscore(R"(^[a-zA-z0-9._]+$)");
         return std::regex_match(toCheck, isAlnumPeriodOrUnderscore);
     }
 }

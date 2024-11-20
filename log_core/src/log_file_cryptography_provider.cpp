@@ -30,7 +30,7 @@ std::vector<unsigned char> LogFileCryptographyProvider::decrypt(const std::vecto
     {
         throw std::runtime_error("Invalid key!");
     }
-    crypto_stream_chacha20_xor(data.data(), data.data(), data.size(), nonce, key);
+    crypto_stream_chacha20_xor(data.data(), data.data(), data.size(), nonce, hashText(keyInput).data());
     return data;
 }
 
@@ -40,7 +40,7 @@ std::vector<unsigned char> LogFileCryptographyProvider::encrypt(const std::vecto
     const auto dataPortionOffset = NONCE_BYTES + KEY_BYTES;
     unsigned char nonce[NONCE_BYTES];
     randombytes_buf(nonce, NONCE_BYTES);
-    crypto_stream_chacha20_xor(buffer.data() + dataPortionOffset, plaintextData.data(), plaintextData.size(), nonce, STR_AS_UCHAR_STAR(key));
+    crypto_stream_chacha20_xor(buffer.data() + dataPortionOffset, plaintextData.data(), plaintextData.size(), nonce, hashText(key).data());
     crypto_hash_sha256(buffer.data() + NONCE_BYTES, STR_AS_UCHAR_STAR(key), key.size());
     memcpy(buffer.data(), nonce, NONCE_BYTES);
     return buffer;
@@ -48,7 +48,6 @@ std::vector<unsigned char> LogFileCryptographyProvider::encrypt(const std::vecto
 bool LogFileCryptographyProvider::isNotModified(const std::vector<unsigned char> &text, const std::vector<unsigned char> &hmac, const std::string &key) const
 {
     std::vector<unsigned char> keyHash(crypto_hash_sha256_BYTES);
-    keyHash.resize(crypto_hash_sha256_BYTES);
     crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(key), key.size());
 
     if (keyHash.size() != 32)
@@ -65,14 +64,12 @@ bool LogFileCryptographyProvider::isNotModified(const std::vector<unsigned char>
 std::vector<unsigned char> LogFileCryptographyProvider::generateHMAC(const std::vector<unsigned char> &rawFileData, const std::string &key) const
 {
     std::vector<unsigned char> keyHash(crypto_hash_sha256_BYTES);
-    keyHash.resize(crypto_hash_sha256_BYTES);
     crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(key), key.size());
     if (keyHash.size() != 32)
     {
         throw std::invalid_argument("Key must be exactly 32 bytes for HMAC");
     }
     std::vector<unsigned char> hmacBuffer(crypto_auth_hmacsha512_BYTES);
-    hmacBuffer.resize(crypto_auth_hmacsha512_BYTES);
     crypto_auth_hmacsha512(hmacBuffer.data(), rawFileData.data(), rawFileData.size(), keyHash.data());
     return hmacBuffer;
 }

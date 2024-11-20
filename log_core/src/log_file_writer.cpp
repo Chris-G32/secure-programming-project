@@ -11,7 +11,8 @@ void LogFileWriter::write(const Gallery &gallery, std::ostream &logStream, const
     LogEntryFactory factory;
     // Multiply by 5 to assume 5 events min per attendee
     auto estimatedGallerySize = gallery.getGalleryState().size() * 5;
-    std::vector<LogEntry> entries(estimatedGallerySize);
+    std::vector<LogEntry> entries;
+    entries.reserve(estimatedGallerySize);
 
     for (const auto &entryInfo : state)
     {
@@ -32,9 +33,10 @@ void LogFileWriter::write(const Gallery &gallery, std::ostream &logStream, const
     {
         if (writeNewline)
         {
-            writeNewline = true;
-            ss << "\n";
+
+            ss << '\n';
         }
+        writeNewline = true;
         ss << event.toFileFormat();
     }
     auto fileString = ss.str();

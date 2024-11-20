@@ -31,6 +31,31 @@ private:
     }
 
 public:
+    void setTime(const Timestamp &time)
+    {
+        _time = time;
+    }
+    void setIsEmployee(bool isEmployee)
+    {
+        _isEmployee = isEmployee;
+    }
+    void setName(const std::string &name)
+    {
+        _name = name;
+    }
+    void setIsArrival(bool isArrival)
+    {
+        _isArrival = isArrival;
+    }
+    void setRoomID(RoomID roomID)
+    {
+        if (_roomID != nullptr)
+        {
+            delete _roomID;
+        }
+        _roomID = new RoomID(roomID);
+    }
+
     std::string toFileFormat() const
     {
         std::ostringstream oss;

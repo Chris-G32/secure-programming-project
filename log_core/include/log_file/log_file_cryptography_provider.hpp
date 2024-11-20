@@ -29,7 +29,8 @@ public:
     bool isNotModified(const std::vector<unsigned char> &text, const std::vector<unsigned char> &hmac, const std::string &key) const;
     std::vector<unsigned char> hashText(const std::string &text) const
     {
-        std::vector<unsigned char> buffer(KEY_BYTES);
+        std::vector<unsigned char> buffer;
+        buffer.reserve(KEY_BYTES);
         buffer.resize(KEY_BYTES);
         crypto_hash_sha256(buffer.data(), STR_AS_UCHAR_STAR(text), text.size());
         return buffer;

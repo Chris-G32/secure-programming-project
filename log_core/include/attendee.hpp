@@ -10,6 +10,7 @@ private:
 
 public:
     bool operator<(const Attendee &rhs) const;
+    bool operator==(const Attendee &rhs) const;
     bool isEmployee() const { return _isEmployee; }
     bool isGuest() const { return !_isEmployee; }
     const std::string &getName() const { return _name; }

@@ -14,16 +14,14 @@ bool Gallery::validateStateUpdate(const Attendee &attendee, const GalleryEvent &
     if (entry != _galleryState.end())
     {
         const AttendeeState &state = entry->second.second;
+        GalleryEvent mostRecentEventForAttendee = entry->second.first.back();
         switch (state)
         {
         case OutsideGallery:
             return event.isGalleryEntry();
         case InGallery:
-            if (event.isRoomEntry())
-            {
-                return *(event._roomID) == *(entry->second.first.back()._roomID); // Assert that last event associated with this matches rooms
-            }
-            return event.isGalleryExit();
+            // You may only enter the gallery or a room from the in gallery state
+            return event.isGalleryExit() || event.isRoomEntry();
         case InRoom:
             if (event.isRoomExit())
             {

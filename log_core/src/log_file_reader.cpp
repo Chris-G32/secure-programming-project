@@ -1,5 +1,5 @@
 #include "log_file/log_file_reader.hpp"
-LogFile LogFileReader::load(std::istream &logStream, const std::string &key)
+LogFile LogFileReader::load(std::istream &logStream, const std::string &key) const
 {
     // Seek to the end of the stream to determine the size
     logStream.seekg(0, std::ios::end);
@@ -35,6 +35,6 @@ LogFile LogFileReader::load(std::istream &logStream, const std::string &key)
         throw std::runtime_error("Error reading from the input stream");
     }
     LogFile file(_entryParser, _cryptoProvider);
-    file.loadRaw(buffer, key);
+    file.loadRaw(fileContents, key);
     return file;
 }

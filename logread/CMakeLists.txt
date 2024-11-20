@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(log_core)
+project(logread)
 
 # Enable testing
 include(CTest)
@@ -27,45 +27,21 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(sodium REQUIRED)
 # Find Google Test
 find_package(GTest REQUIRED)
+
 # List all source files in the src directory
 file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 # Add the executable
-add_executable(gallery_event_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/gallery_event_tests.cpp" ${SRC_FILES})
-add_executable(gallery_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/gallery_tests.cpp" ${SRC_FILES})
-add_executable(log_entry_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_entry_tests.cpp" ${SRC_FILES})
-add_executable(log_entry_parser_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_entry_parser_tests.cpp" ${SRC_FILES})
-add_executable(log_file_cryptography_provider_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_cryptography_provider_tests.cpp" ${SRC_FILES})
-add_executable(log_file_writer_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_writer_tests.cpp" ${SRC_FILES})
-add_executable(log_file_reader_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_reader_tests.cpp" ${SRC_FILES})
-add_executable(log_file_tests "${CMAKE_CURRENT_SOURCE_DIR}/tests/log_file_tests.cpp" ${SRC_FILES})
-# Create the shared library
-add_library(log_core SHARED ${SRC_FILES})
-target_include_directories(log_core
-    PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/factories
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/utils
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/log_file
+add_executable(logread "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp" ${SRC_FILES})
+target_include_directories(logread
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-target_include_directories(log_core
-    PRIVATE
-    ${sodium_INCLUDE_DIR})
-target_link_libraries(log_core
-    PUBLIC
-    sodium
-)
-# List of all test executables
-set(TEST_TARGETS
-    gallery_event_tests
-    gallery_tests
-    log_entry_tests
-    log_entry_parser_tests
-    log_file_cryptography_provider_tests
-    log_file_writer_tests
-    log_file_reader_tests
-    log_file_tests
-)
+target_link_libraries(logread PRIVATE log_core sodium)
+# # List of all test executables
+# set(TEST_TARGETS
+#     logappend
+# )
 
 # Apply settings to all test executables
 foreach(target ${TEST_TARGETS})

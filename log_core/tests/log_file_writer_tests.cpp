@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "log_file_writer.hpp"
-#include "log_file_reader.hpp"
+#include "log_file/log_file_writer.hpp"
+#include "log_file/log_file_reader.hpp"
 #include <iostream>
 #include <streambuf>
 class LogFileWriterTests : public testing::Test
@@ -24,21 +24,29 @@ TEST_F(LogFileWriterTests, TestOneEntryWrite)
     std::list<LogEntry> entries;
     std::cout << "Pre list\n";
     entries.push_back(entry);
-    std::cout << "Post list\n";
+
+    entries.emplace_back(true, true, "name", 2, 100);
+    entries.emplace_back(false, true, "name", 3, 100);
+    entries.emplace_back(true, false, "dsadfsfsdfehjbshdajjhfdfgevgshafvddjsahfvdytgfvdsfjdsghjsavjhgdsafsadfghsahjsafghj", 5);
+    entries.emplace_back(false, true, "name", 6);
+    std::cout
+        << "Post list\n";
 
     Gallery gallery(entries);
-    std::string key = "abced";
+
+    std::string key = "1234567890-02148329489sadsadas834893429";
     LogFileWriter writer(cryptoProvider);
     std::stringstream stream;
     writer.write(gallery, stream, key);
     std::cout << "Write Complete...\n";
     stream.seekg(0);
+    stream.seekp(0);
     LogFileReader reader(parser, cryptoProvider);
     auto result = reader.load(stream, key);
     auto storedGallery = result.authorizedGalleryGet(key);
     ASSERT_EQ(storedGallery.getLastUpdate(), gallery.getLastUpdate());
     ASSERT_EQ(storedGallery.getGalleryState().size(), gallery.getGalleryState().size());
-    ASSERT_EQ(storedGallery.getGalleryState().begin()->first.getName(), entry.getName());
+    ASSERT_NE(storedGallery.getGalleryState().find(Attendee(entry.getName(), entry.isEmployee())), storedGallery.getGalleryState().end());
 }
 
 int main(int argc, char **argv)

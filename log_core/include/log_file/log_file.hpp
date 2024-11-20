@@ -24,7 +24,22 @@ protected:
     const LogFileCryptographyProvider &_cryptoProvider;
 
 public:
+    LogFile(LogFile &rhs) : _entryParser(rhs._entryParser), _cryptoProvider(rhs._cryptoProvider), _keyHash(rhs._keyHash), _gallery(rhs._gallery)
+    {
+    }
+    LogFile(LogFile &&other) : _entryParser(other._entryParser), _cryptoProvider(other._cryptoProvider)
+    {
+        _keyHash = std::move(other._keyHash);
+        _gallery = std::move(other._gallery);
+    }
+    LogFile(const LogEntryParser &parser) : _entryParser(parser), _cryptoProvider(LogFileCryptographyProvider())
+    {
+    }
     LogFile(const LogEntryParser &parser, const LogFileCryptographyProvider &cryptoProvider) : _entryParser(parser), _cryptoProvider(cryptoProvider) {}
+    LogFile(const LogEntryParser &parser, const LogFileCryptographyProvider &cryptoProvider, const std::string &key) : _entryParser(parser), _cryptoProvider(cryptoProvider)
+    {
+        _keyHash = _cryptoProvider.hashText(key);
+    }
     /// @brief Loads a log file from its containing data
     /// @param rawFileData
     /// @param key

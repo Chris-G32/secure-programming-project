@@ -2,8 +2,9 @@
 
 # Set some env vars for our other scripts
 # Define the environment variables
-export SEC_PROG_PATH="/home/chris/ksu-projects/secure-programming-project"
+export SEC_PROG_PATH="/home/chris/coding_projects/secure-programming-project"
 export LOG_CORE_PATH="${SEC_PROG_PATH}/log_core"
+export LOG_APPEND_PATH="${SEC_PROG_PATH}/logappend"
 export SEC_PROG_BUILD_PATH="${SEC_PROG_PATH}/build"
 mkdir -p $SEC_PROG_BUILD_PATH
 # Optional: Print the values to verify
@@ -20,8 +21,12 @@ runTestsVerbose(){
     runTests "--rerun-failed --output-on-failure"
 }
 buildProj(){
-    cd $SEC_PROG_PATH/scripts
-    bash build_log_core_tests.sh
+    cd $SEC_PROG_PATH
+    cmake -B build -S .
+    cd build
+    make
+    cp logappend/logappend $SEC_PROG_PATH/executables
+    cp logread/logread $SEC_PROG_PATH/executables
 }
 buildAndTest(){
     buildProj
@@ -30,4 +35,15 @@ buildAndTest(){
 buildAndTestVerbose(){
     buildProj
     runTests "--rerun-failed --output-on-failure"
+}
+buildLogAppend(){
+    cd $SEC_PROG_PATH
+    cmake -B build -S .
+    cd build
+    make
+    cp logappend/logappend $SEC_PROG_PATH/executables
+    cd $SEC_PROG_PATH/executables
+    # cmake -B $LOG_APPEND_PATH -S $LOG_APPEND_PATH/build
+    # cd $LOG_APPEND_PATH/build
+    # make
 }

@@ -11,13 +11,13 @@ protected:
 
 public:
     ILogFileReader(const LogEntryParser &parser, const LogFileCryptographyProvider &cryptoProvider) : _entryParser(parser), _cryptoProvider(cryptoProvider) {}
-    virtual LogFile load(std::istream &logStream, const std::string &key) = 0;
+    virtual LogFile load(std::istream &logStream, const std::string &key) const = 0;
 };
 
 class LogFileReader : public ILogFileReader
 {
 public:
     LogFileReader(const LogEntryParser &parser, const LogFileCryptographyProvider &cryptoProvider) : ILogFileReader(parser, cryptoProvider) {}
-    virtual LogFile load(std::istream &logStream, const std::string &key) override;
+    virtual LogFile load(std::istream &logStream, const std::string &key) const override;
 };
 #endif
