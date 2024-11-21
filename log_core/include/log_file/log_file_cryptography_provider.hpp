@@ -10,6 +10,18 @@
 class LogFileCryptographyProvider
 {
 private:
+    std::string saltAndPepperEncryptionKey(const std::string& key)const{
+        std::string saltAndPepper="1221343";
+        auto saltedAndPepperedKey=saltAndPepper+key+saltAndPepper;
+        auto hashedKey=hashText(saltedAndPepperedKey);
+        std::string hmacKey(hashedKey.begin(),hashedKey.end());
+        return hmacKey;
+    }
+    std::string keyToHmacKey(const std::string& key)const{
+        std::string saltAndPepper="a72dsf3";
+        auto saltedAndPepperedKey=saltAndPepper+key+saltAndPepper;
+        return saltedAndPepperedKey;
+    }
 public:
     static const auto NONCE_BYTES = crypto_stream_chacha20_NONCEBYTES;
     static const auto KEY_BYTES = crypto_stream_chacha20_KEYBYTES;
@@ -35,6 +47,7 @@ public:
         crypto_hash_sha256(buffer.data(), STR_AS_UCHAR_STAR(text), text.size());
         return buffer;
     }
+    
     /// @brief Decrypts the contents in place and returns an iterator to the start and end of the file contents.
     /// @param rawFileData The entire data associated with a log file, including cryptography related parts
     /// @return Decrypted file contents, without cryptographic data.

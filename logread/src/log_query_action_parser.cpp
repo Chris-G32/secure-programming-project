@@ -15,8 +15,8 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
     auto it = actionArgs.begin();
     LogQueryAction *action = nullptr;
     std::string key;
-    std::function<LogQueryAction *(const std::string &)> buildQueryAction;
-    while (it != actionArgs.end())
+    std::function<LogQueryAction *(const std::string ,const std::string)> buildQueryAction;
+    while (it != actionArgs.end()-1)
     {
         std::string flagStringWithDash = *it;
         if (flagStringWithDash.size() != 2)
@@ -37,7 +37,9 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
             throw malformedCommandError;
         }
         flagsSeenSet.insert(flagCharacter);
-        std::advance(it, 1);
+        //Advance past flag
+        it++;
+
         switch (flagCharacter)
         {
         case ROOM_QUERY_FLAG:
@@ -47,11 +49,13 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
                 throw malformedCommandError;
             }
             const std::regex guestOrEmployeeFlagRegex("^-[EG]$");
+            // Arg after room query flag must be guest or employee flag
             auto guestOrEmployee = *it;
             if (!std::regex_match(guestOrEmployee, guestOrEmployeeFlagRegex))
             {
                 throw malformedCommandError;
             }
+            // Advance past guest or employee flag to name argument
             std::advance(it, 1);
             auto name = *it;
             if (!RegexUtils::isAlphabetical(name))
@@ -59,13 +63,11 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
                 throw malformedCommandError;
             }
             Attendee attendee(name, guestOrEmployee[1] == EMPLOYEE_FLAG);
-            std::advance(it, 1);
-            auto logFileName = *it;
-
-            buildQueryAction = [attendee, logFileName](const std::string &key) -> LogQueryAction *
+            buildQueryAction = [attendee](const std::string key,const std::string logFileName) -> LogQueryAction *
             {
                 return new RoomsQueryAction(logFileName, key, attendee);
             };
+            it++;// Advance past name argument
             break;
         }
         case STATE_QUERY_FLAG:
@@ -74,8 +76,7 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
             {
                 throw malformedCommandError;
             }
-            auto logFileName = *it;
-            buildQueryAction = [logFileName](const std::string &key) -> LogQueryAction *
+            buildQueryAction = [](const std::string key,const std::string logFileName) -> LogQueryAction *
             {
                 return new StateQueryAction(logFileName, key);
             };
@@ -88,6 +89,7 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
                 throw malformedCommandError;
             }
             key = *it;
+            it++;
             break;
         }
         default:
@@ -95,7 +97,8 @@ LogQueryAction *LogQueryActionParser::parse(const std::vector<std::string> &acti
             throw malformedCommandError;
         }
         }
-            std::advance(it, 1);
+
     }
-        return buildQueryAction(key);
+    auto logFileName = *it;
+    return buildQueryAction(key,logFileName);
 }

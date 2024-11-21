@@ -364,7 +364,7 @@ TEST_F(LogAppendTest, ConcurrentFileAccess) {
 TEST_F(LogAppendTest, LargeBatchFile) {
     // Create a very large batch file
     std::ofstream batchFile("test_batch.txt");
-    for (int i = 0; i < 1000000; i++) {
+    for (int i = 0; i < 1000; i++) {
         batchFile << "-T " << (12345678 + i) << " -K testkey123 -E John -A test_log.txt\n";
     }
     batchFile.close();

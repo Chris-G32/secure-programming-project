@@ -8,8 +8,7 @@ std::vector<unsigned char> LogFileCryptographyProvider::decrypt(const std::vecto
         std::cerr << "File is too small! Is of size: " << rawFileData.size() << std::endl;
         throw std::runtime_error("File is too small.");
     }
-    auto key = STR_AS_UCHAR_STAR(keyInput);
-    const auto keyLength = keyInput.length();
+    
     // Read nonce
     unsigned char nonce[NONCE_BYTES];
     std::memcpy(nonce, rawFileData.data(), NONCE_BYTES);
@@ -22,7 +21,8 @@ std::vector<unsigned char> LogFileCryptographyProvider::decrypt(const std::vecto
 
     // Verify key hash matches stored hash
     unsigned char computed_hashed_key[crypto_hash_sha256_BYTES];
-    auto hashResult = crypto_hash_sha256(computed_hashed_key, key, keyLength);
+    auto saltedKey = saltAndPepperEncryptionKey(keyInput);
+    auto hashResult = crypto_hash_sha256(computed_hashed_key, STR_AS_UCHAR_STAR(saltedKey), saltedKey.size());
     bool hashesAreEqual = memcmp(stored_key_hash, computed_hashed_key, crypto_hash_sha256_BYTES) == 0;
 
     // Validate the key
@@ -41,14 +41,16 @@ std::vector<unsigned char> LogFileCryptographyProvider::encrypt(const std::vecto
     unsigned char nonce[NONCE_BYTES];
     randombytes_buf(nonce, NONCE_BYTES);
     crypto_stream_chacha20_xor(buffer.data() + dataPortionOffset, plaintextData.data(), plaintextData.size(), nonce, hashText(key).data());
-    crypto_hash_sha256(buffer.data() + NONCE_BYTES, STR_AS_UCHAR_STAR(key), key.size());
+    auto saltedKey = saltAndPepperEncryptionKey(key);
+    crypto_hash_sha256(buffer.data() + NONCE_BYTES, STR_AS_UCHAR_STAR(saltedKey), saltedKey.size());
     memcpy(buffer.data(), nonce, NONCE_BYTES);
     return buffer;
 }
 bool LogFileCryptographyProvider::isNotModified(const std::vector<unsigned char> &text, const std::vector<unsigned char> &hmac, const std::string &key) const
 {
     std::vector<unsigned char> keyHash(crypto_hash_sha256_BYTES);
-    crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(key), key.size());
+    auto hmacKey = keyToHmacKey(key);
+    crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(hmacKey), hmacKey.size());
 
     if (keyHash.size() != 32)
     {
@@ -64,7 +66,8 @@ bool LogFileCryptographyProvider::isNotModified(const std::vector<unsigned char>
 std::vector<unsigned char> LogFileCryptographyProvider::generateHMAC(const std::vector<unsigned char> &rawFileData, const std::string &key) const
 {
     std::vector<unsigned char> keyHash(crypto_hash_sha256_BYTES);
-    crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(key), key.size());
+    auto hmacKey = keyToHmacKey(key);
+    crypto_hash_sha256(keyHash.data(), STR_AS_UCHAR_STAR(hmacKey), hmacKey.size());
     if (keyHash.size() != 32)
     {
         throw std::invalid_argument("Key must be exactly 32 bytes for HMAC");
