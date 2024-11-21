@@ -24,6 +24,7 @@ LogFile LogFileReader::load(std::istream &logStream, const std::string &key) con
     buffer.resize(buffer.size() - _cryptoProvider.HMAC_BYTES);
     if (!_cryptoProvider.isNotModified(buffer, hmac, key))
     {
+        std::cout<<"integrity violation";
         throw std::runtime_error("Logfile has been tampered with!");
     }
 
